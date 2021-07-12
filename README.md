@@ -1,6 +1,7 @@
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210515191227460.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 
+@[toc]
 
 - [写在前面](#写在前面)
 - [准备工作](#准备工作)
@@ -160,7 +161,6 @@
           - [windows](#windows-1)
     - [网站](#网站-1)
 - [web安全](#web安全)
-- [待补充：二进制：攻击](#待补充二进制攻击)
 - [待补充：系统：攻击](#待补充系统攻击)
   - [经典漏洞](#经典漏洞)
     - [永恒之蓝](#永恒之蓝)
@@ -216,12 +216,10 @@
       - [防御](#防御-1)
     - [登录脆弱](#登录脆弱)
       - [登陆点暴力破解](#登陆点暴力破解)
-    - [爆破障碍与排障思路](#爆破障碍与排障思路)
-    - [暴力破解](#暴力破解)
-      - [暴力破解工具](#暴力破解工具)
-        - [hydra](#hydra)
-        - [字典](#字典-1)
-    - [密码喷洒攻击](#密码喷洒攻击)
+        - [什么网站登录点可以进行暴力破解](#什么网站登录点可以进行暴力破解)
+        - [准备字典](#准备字典)
+        - [暴力破解](#暴力破解)
+        - [其他登陆点攻击](#其他登陆点攻击)
   - [CRLF 注入](#crlf-注入)
   - [宽字节注入](#宽字节注入)
   - [XXE](#xxe)
@@ -230,7 +228,6 @@
     - [XXE 攻击](#xxe-攻击)
       - [远程文件 SSRF](#远程文件-ssrf)
       - [XXE 亿笑攻击-DOS](#xxe-亿笑攻击-dos)
-  - [逻辑漏洞](#逻辑漏洞)
   - [RCE（远程命令执行）](#rce远程命令执行)
     - [实例：网站可执行系统命令](#实例网站可执行系统命令)
   - [数据库注入](#数据库注入)
@@ -439,23 +436,26 @@
         - [写书](#写书)
     - [更多阅读](#更多阅读)
   - [待补充：寻求交流社区](#待补充寻求交流社区)
+
+# 写在前面
+
 **作者：洪七**
+
+**qq交流群：942443861**
+文章链接：https://github.com/ngadminq/Hong-Qigong-penetration-test-guide
+
 本文开始于2021/4/27
 预计2022年完成
 
 文章已经花了很多心思写，将来还会投入更多心思。如果对你有帮助，请帮忙点个star，这将给予我更多动力完成。
 
-
-# 写在前面
-**qq交流群：942443861**
-文章链接：https://github.com/ngadminq/Hong-Qigong-penetration-test-guide
-
-
-
 ****
 *待补充：简要介绍每一章节讲了什么，应该如何阅读、学习*
+
 *待补充：每一种漏洞介绍经验，常见什么形式展现，从源码层面做分析*
+
 *将每种类型常见的公开漏洞做总结*
+
 *将文章拆分为：原理版和实践版*
 
 # 准备工作
@@ -2849,6 +2849,41 @@ FuzzDB包含一些用于此目的的非常牛逼的字典。
 
 burpsuite当抓不到包时，可能是目标网站是个无发送数据包的网站，比如只有一些静态的js代码，你的交互都是在目标主机本机运行，因此就不会展示数据包。比如你也许认为上传操作都可以抓到数据包，然而事实上是有的数据包是js操作，所以根本就不会反馈数据包给你
 
+在面试和实战中需要区分burpsuite攻击参数注入的基本方式
+
+1. Sniper（狙击手）
+   顾名思义，就是一个一个的来，就跟98K一样，一ju一个准。也是最基础的一种模式。
+   添加了一个参数的话，并且假设payload有500个的话，那就执行500次，
+
+
+如果添加了两个参数的话，就会挨着来，第一个参数开始爆破时，第二个不变，如此这样，会进行500+500此 总共1000次爆破。
+
+
+2. Battering ram（攻城锤）
+   顾名思义，和狙击手差不多，一个参数的话都一样，只不过如果添加了两个参数的话，就一起进行爆破。那么两个参数爆破时候的值肯定就是一样的了。那么就只会进行500次爆破。
+
+3. Pitchfork（草叉模式）
+   此模式下如果只添加了一个参数的话，会报错
+
+
+添加了两个参数的话 ，要求添加两个payload
+pl1：1，2
+pl2：3，4
+那么第一爆破为 1，3
+而二次爆破为2，4
+如果两个payload行数不一致的话，取最小值进行测试。所以爆破的次数取两个中最小的为准。
+
+4. Cluster bomb（集束炸弹）
+   同pitchfork，起码两个参数，但此操作会计算两个的payload 的笛卡儿积。
+   比如pl1：1，2，3
+   pl2：4，5，6
+   那么第一次爆破为 1，4
+   第二次为1，5
+   以此类推 1，6
+   2，4
+   2，5.。。。。。。
+
+
 ##### 插件
 
 
@@ -3043,9 +3078,7 @@ rdesktop 10.101.2.11
 
 一个任意链接特殊字符意义：  *https://www.baidu.com/s?ie=UTF-8&wd=owasp&tn=88093251_74_hao_pg*  用？隔开参数和资源，字段之间用&分开。有的网站如果只利用Content-Type字段判断文件类型，那么修改了就能恶意上传文件了。
 
-# 待补充：二进制：攻击
 
-会不会二进制安全相关的东西（逆向、破解、浏览器、系统内核）
 
 # 待补充：系统：攻击
 
@@ -3616,7 +3649,7 @@ a.pphphp -> a.
  - 后盾安全造成：数据库
 
 **常见修改参数**
-如果有水平越权，常见修改数据包的参数有 uid、用户名
+如果有水平越权，常见修改数据包的参数有 uid、用户名、cookie的uid值也可以尝试修改的
 
 **敏感操作**
 通常在于你在登录自己账号时，去通过修改参数登录了别人的账号.
@@ -3651,49 +3684,24 @@ a.pphphp -> a.
 5.永远不要相信来自用户的输入，对于可控参数进行严格的检测与过滤
 
 ### 登录脆弱
-1.
-2.HTTP/HTTPS传输
 3.Cookie脆弱点验证
 4.Session固定点测试
 5.验证密文比对安全测试
 #### 登陆点暴力破解
-### 爆破障碍与排障思路
+##### 什么网站登录点可以进行暴力破解
 
+ - 服务器端没有做限制，而比如银行卡号密码就做了限制，如果攻击次数超过3，那么卡将被冻结，或者某IP尝试登录次数超过阈值，IP将被锁定
+ - 没有做登录验证或被验证能被绕过
+ -明文传输或加密方式被你破解，其中大部分http都是明文传输，大部分https都是加密传输
 
-
+##### 准备字典
 你可以用pydictor生成普通爆破字典、基于网站内容的自定义字典、社会工程学字典等等一系列高级字典；你可以使用pydictor的内置工具，对字典进行安全删除、合并、去重、合并并去重、高频词筛选, 除此之外，你还可以输入自己的字典，然后使用handler工具，对字典进行各种筛选，编码或加密操作；
 
-**搜集更多信息**
+**搜集更多信息以及生成他们字典**
 https://whois.domaintools.com
 http://whois.chinaz.com/
 密码爆破如此
 whois 查询到所登记的联络人信息，通常是网域管理员，收集他的**个人邮箱**作为密码爆破猜解对象之一。
-**初级**
-select id from users where username = '<font color=red size=4>' or 1=1--  </font>and password = '456'
-
-### 暴力破解
-
-暴力破解产生是因为服务器端没有做限制，而比如银行卡号密码就做了限制，如果攻击次数超过3，那么卡将被冻结，或者某IP尝试登录次数超过阈值，IP将被锁定，或者对于没有验证或被绕过时可采用暴力破解。这时候能否入侵成功完全取决于字典大小。
-如果有这种限制，你要是获得已知用户名的hash密码也能破解，具体做法是通过hashid识别hash类型，将用户名和你尝试的密码一一结合起来看是否hash值相等，相等即破解成功。这两种方法都是属于暴力破解，只不过一个是在线的一个是离线的，你仍旧都可以使用hydra破解
-**爆破攻击**
-BurpSuite：多功能渗透测试工具，渗透测试神器，使用JAVA开发，功能齐全，方便渗透测试人员去测试WEB站点
-
-Hydra：九头蛇，开源的功能强大的爆破工具，支持的服务有很多，使用Hydra爆破C/S架构的服务
-
-Medusa：美杜莎，开源的，支持爆破的服务有很多种，FTP、SSH、Mssql、Mysql、SNMP等等，在kali系统中有内置
-
-#### 暴力破解工具
-
-##### hydra
-
-hydra爆破工具，在kali有集成。在kali上有个默认密码字典位于`/usr/share/wordlists`
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20210603153641755.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
-
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20210519202219784.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
-
-类似工具：snetcrack、超级弱口令
-
-##### 字典
 
 
 推荐crunch和cupp，kali中都有，自己也可以根据需要写一些脚本
@@ -3703,59 +3711,32 @@ hydra爆破工具，在kali有集成。在kali上有个默认密码字典位于`
 https://www.bugku.com/mima/
 
 
-
-后台弱口令爆破撞库
-（尝试万能密码、特定资产常用密码、弱口令后再撞库、有的数据库要输对用户名再注释
-我的github有收集的字典　https://github.com/hackerX2021）
-
-比如可以首先收集一些网站的信息针对性的制作字典，比如域名，员工邮箱，企业名称等等,推荐工具:白鹿社工字典生成:https://github.com/HongLuDianXue/BaiLu-SED-Tool
+首先收集一些网站的信息针对性的制作字典，比如域名，员工邮箱，企业名称等等,推荐工具:白鹿社工字典生成:https://github.com/HongLuDianXue/BaiLu-SED-Tool
 爆破的关键在于字典，常见的字典github上都有,但是普通的弱口令现在确实不太好用了，要想提高成功的机率，还是需要碰一碰强密码，分享先知的文章:
 https://xz.aliyun.com/t/7823
-https://github.com/huyuanzhi2/password_brute_dictionary
-用
-![在这里插入图片描述](https://img-blog.csdnimg.cn/2021051217503276.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
-
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20210512174853968.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
-参数注入的基本方式
-
-1. Sniper（狙击手）
-   顾名思义，就是一个一个的来，就跟98K一样，一ju一个准。也是最基础的一种模式。
-   添加了一个参数的话，并且假设payload有500个的话，那就执行500次，
+##### 暴力破解
+要是获得已知用户名的hash密码也能破解，具体做法是通过hashid识别hash类型，将用户名和你尝试的密码一一结合起来看是否hash值相等，相等即破解成功。这两种方法都是属于暴力破解，只不过一个是在线的一个是离线的，你仍旧都可以使用hydra破解
 
 
-如果添加了两个参数的话，就会挨着来，第一个参数开始爆破时，第二个不变，如此这样，会进行500+500此 总共1000次爆破。
+**hydra进行暴力破解**
+
+hydra爆破工具，在kali有集成。在kali上有个默认密码字典位于`/usr/share/wordlists`
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210603153641755.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
+
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210519202219784.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
+
+类似工具：snetcrack、超级弱口令
 
 
-2. Battering ram（攻城锤）
-   顾名思义，和狙击手差不多，一个参数的话都一样，只不过如果添加了两个参数的话，就一起进行爆破。那么两个参数爆破时候的值肯定就是一样的了。那么就只会进行500次爆破。
-
-3. Pitchfork（草叉模式）
-   此模式下如果只添加了一个参数的话，会报错
-
-
-添加了两个参数的话 ，要求添加两个payload
-pl1：1，2
-pl2：3，4
-那么第一爆破为 1，3
-而二次爆破为2，4
-如果两个payload行数不一致的话，取最小值进行测试。所以爆破的次数取两个中最小的为准。
-
-4. Cluster bomb（集束炸弹）
-   同pitchfork，起码两个参数，但此操作会计算两个的payload 的笛卡儿积。
-   比如pl1：1，2，3
-   pl2：4，5，6
-   那么第一次爆破为 1，4
-   第二次为1，5
-   以此类推 1，6
-   2，4
-   2，5.。。。。。。
-
-### 密码喷洒攻击
+##### 其他登陆点攻击
+**密码喷洒攻击**
 基本上，密码爆破是用多个密码尝试破解同一个 ID。而密码喷洒攻击，是用一个密码来尝试多个用户ID，以便至少有一个用户 ID 被泄露。对于密码喷洒攻击，黑客使用社交工程或其他网络钓鱼方法收集多个用户 ID。通常情况下，至少有一个用户使用简单的密码，如12345678甚至是 p@ssw0rd。在密码喷洒攻击中，黑客会为他或她收集的所有用户 ID 应用精心构造的密码。因此，密码喷洒攻击可以定义为将相同的密码应用于组织中的多个用户帐户，目的是安全的对其中一个帐户进行未授权访问。暴力破解的问题在于，在使用不同密码进行一定次数的尝试后，系统可能会被锁定。为了避免这种情况，产生了收集用户 ID 并将可能的密码应用于它们的想法。使用密码喷洒攻击时，黑客也会采取一些预防措施。例
 如，如果他们尝试将 password1应用于所有用户帐户，则在完成第一轮后，他们不会立即开始将password2应用于这些帐户。他们将在黑客攻击中留出至少30分钟的时间。参考资料：Password Spray Attack Definition and Defending yourself
 **重置密码漏洞**
 常见方式：通过Session覆盖漏洞重置他人密码
 **AI破解**
+
+
 
 ## CRLF 注入
 
@@ -3864,17 +3845,6 @@ CVE-2019-0340：通过文件上传的 XXE
 在这里，我们看到在1 处，我们已经声明了名为“ ignite”的实体，然后在其他几个实体中调用了 ignite，从而形成了一个回调链，这将使服务器过载。在2 处，我们调用了实体&ignite9; 我们已经调用 ignite9 而不是 ignite，因为 ignite9 多次调用 ignite8，每次调用 ignite8 时都会启动 ignite7，依此类推。因此，请求将花费指数级的时间来执行，结果，网站将关闭。
 以上命令导致 DoS 攻击，我们得到的输出是：
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210604115949948.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
-
-## 逻辑漏洞
-
-**领域**
-
-1. 竞态条件。对于具有余额，优惠券或其他有限资源（主要是金钱）的网站，这是非常常见的错误。[黑客星巴克喝无限量的咖啡](https://blog.csdn.net/weixin_39190897/article/details/106355153?utm_medium=distribute.pc_relevant.none-task-blog-baidujs_baidulandingword-0&spm=1001.2101.3001.4242)
-2. 越权访问
-3. 支付订单：金额可篡改，为负数；[腾讯视频-利用burpsuite在微信小程序1分当1000元使。注：漏洞已修复！](https://v.qq.com/x/page/z0514ir0w9i.html)
-4. 重置密码：利用session覆盖重置密码、短信验证码直接返回在数据包中
-   **简介**
-
 
 
 
