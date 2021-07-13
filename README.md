@@ -116,8 +116,6 @@
       - [钟馗之眼](#钟馗之眼)
       - [FoFa搜索引擎](#fofa搜索引擎)
       - [Dnsdb搜索引擎](#dnsdb搜索引擎)
-    - [sqlmap](#sqlmap)
-    - [蚁剑](#蚁剑)
   - [邮件](#邮件)
     - [Swaks](#swaks)
   - [抓包](#抓包)
@@ -408,8 +406,6 @@
     - [获得 Shell后](#获得-shell后)
       - [进程迁移](#进程迁移)
       - [系统命令](#系统命令)
-    - [工具推荐](#工具推荐)
-      - [如何发现当下流行的新工具](#如何发现当下流行的新工具)
 - [下一步](#下一步)
   - [自学](#自学)
     - [文档](#文档)
@@ -442,12 +438,13 @@
 **作者：洪七**
 
 **qq交流群：942443861**
+
 文章链接：https://github.com/ngadminq/Hong-Qigong-penetration-test-guide
 
 本文开始于2021/4/27
 预计2022年完成
 
-文章已经花了很多心思写，将来还会投入更多心思。如果对你有帮助，请帮忙点个star，这将给予我更多动力完成。
+
 
 ****
 *待补充：简要介绍每一章节讲了什么，应该如何阅读、学习*
@@ -790,7 +787,7 @@ sha1已经完全被破解，具体参考王小云
 
 ## 同源策略
 
- 解释一下，何为同源：协议、域名、端口都一样就是同源 //
+ 解释一下，何为同源：协议、域名、端口都一样就是同源
  ~ http、https、 
  ~ a.com、b.com
  ~ url:80、url:90
@@ -2386,47 +2383,12 @@ FoFa搜索引擎偏向资产搜索。
 
 #### Dnsdb搜索引擎
 
-dnsdb搜索引擎是一款针对dbs解析的查询平台。
+dnsdb搜索引擎是一款针对dns解析的查询平台。
 地址：https://www.dnsdb.io/
 
-搜索语法
-
-DnsDB查询语法结构为条件1 条件2 条件3 …., 每个条件以空格间隔, DnsDB 会把满足所有查询条件的结果返回给用户.
-
-域名查询条件
-
-域名查询是指查询顶级私有域名所有的DNS记录, 查询语法为domain:.
-例如查询google.com 的所有DNS记录: domain:google.com.
-域名查询可以省略domain:.
-
-主机查询条件
-
-查询语法:host:
-例如查询主机地址为mp3.example.com的DNS记录: host:map3.example.com
-主机查询条件与域名查询查询条件的区别在于, 主机查询匹配的是DNS记录的Host值
-
-按DNS记录类型查询
-
-查询语法: type:.
-例如只查询A记录: type:a
-使用条件:必须存在domain:或者host:条件,才可以使用type:查询语法
-
-按IP限制
-
-查询语法: ip:
-查询指定IP: ip:8.8.8.8, 该查询与直接输入8.8.8.8进行查询等效
-查询指定IP范围: ip:8.8.8.8-8.8.255.255
-CIDR: ip:8.8.0.0/24
-IP最大范围限制65536个
-
-条件组合查询的例子
-
-查询google.com的所有A记录: google.com type:a
-### sqlmap
-![在这里插入图片描述](https://img-blog.csdnimg.cn/2021070720543128.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 
 
-### 蚁剑
+
 
 ## 邮件
 
@@ -6492,24 +6454,6 @@ run post/windows/manage/enable_rdp
 # 
 ```
 
-### 工具推荐
-
-AWVS网上总有最新破解版
-
-goby自动化漏扫框架，功能丰富，必备
-
-Nessus破解流程复杂，但是真的好用
-
-Netsparker综合型的web应用安全漏洞扫描工具，检查SQL和XSS比较擅长
-
-Xray也是必备的，渗透开始就挂着，鼠标点到哪里扫到哪里，联动burp和其他漏扫效果也不错
-
-#### 如何发现当下流行的新工具
-
-Cobalt Strike 是迄今为止我最喜欢的红队模拟工具之一。什么是 Cobalt Strike 呢？它是一种用来后期持久渗透，横向移动，流量隐藏、数据窃取的工具。 Cobalt Strike 并没有直接的漏洞利用，也没有通过最新的 0-Day 漏洞来破坏系统。当你已经在服务器上执行了 CS 的恶意代码或者将 CS 用作网络钓鱼活动的一部分时，你就能感受到 CS 的功能是多么广泛并且强大。 一旦你可以在机器上执行 Cobalt Strike 的 payload，它创建一个 Beacon(远控木马功能)连接回连到 C2 服务器（teamserver）。
-
-新的 Cobalt Strike 许可证的费用为3500美元(单用户一年)，所以它并不是一个便宜工具。 不过该软件有免费的限量试用版。
-
 
 
 # 下一步
@@ -6735,7 +6679,6 @@ https://www.hackthissite.org/
 
 通常被称为HTS，是一个在线黑客和安全网站，为您提供黑客新闻和黑客教程。它旨在通过一系列挑战，在安全和合法的环境中为用户提供学习和练习基本和高级“黑客”技能的方法。
 
-打破安全（随便翻译）
 
 http://breakthesecurity.cysecurity.org/
 
@@ -6748,14 +6691,6 @@ https://www.eccouncil.org/Certification/certified-ethical-hacker
 国际电子商务顾问委员会（EC-Council）是一个由会员支持的专业组织。EC理事会主要作为专业认证机构而闻名。其最着名的认证是认证道德黑客。CEH代表综合道德黑客，提供完整的道德黑客攻击和网络安全培训课程，以学习白帽黑客攻击。你只需要选择黑客课程包并加入训练，成为一名职业道德黑客。本网站可以帮助您获得各种课程，使您成为经过认证的道德黑客。
 
 
-
-
-
-
-
-
-黑客在盒子里（翻译看心情）
-
 http://www.hitb.org/
 
 这是一个受欢迎的网站，提供黑客地下的安全新闻和活动。您可以获得有关Microsoft，Apple，Linux，编程等的大量黑客文章。该网站还有一个论坛社区，允许用户讨论黑客技巧。
@@ -6766,18 +6701,6 @@ http://sectools.org/
 
 顾名思义，SecTools意味着安全工具。该网站致力于提供有关网络安全的重要技巧，您可以学习如何应对网络安全威胁。它还提供安全工具及其详细说明。
 
-
-
-
-
-
-
-
-以上是你在黑客成长的道路上可以去参考的网站
-
-如果你觉得还有更好的网站或建议
-
-欢迎留言，评论！
 
 Offensive Community:
 
@@ -6874,23 +6797,10 @@ Packet Storm:
 
 https://packetstormsecurity.com/
 
-提供与数据库相关的建议、漏洞利用、工具、论文以及安全新闻。
-
-
-希望这份名单能够给大家带来切实帮助。如果您觉得不错，也请把它分享给自己的朋友和信息安全关注者。
-
-
-springMvc 完美解决 multipart/form-data 方式提交请求
-javaEE规范和SSH三大框架到底有什么关系
-编程到底难在哪里？
-相关文章
-华强北“楼摇”何时休？深圳华强北首座高层命运如何？
-
-此类车司机警惕！广东交警启用“新”监控
 
 
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20210515195927992.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
+
 
 
 
@@ -6989,8 +6899,6 @@ SQL注入攻击与防御
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/2021050918031945.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210509180409778.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
-
-**book本人已读**
 
 《黑客大揭秘：近源渗透测试》
 
