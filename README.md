@@ -1,17 +1,11 @@
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210515191227460.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 
 @[toc]
-
-
 - [写在前面](#写在前面)
-- [准备工作](#准备工作)
-  - [虚拟机系统配置](#虚拟机系统配置)
-    - [配置上网](#配置上网)
-  - [基本常见知识点](#基本常见知识点)
+- [常见知识点](#常见知识点)
     - [编码](#编码)
       - [URL编码](#url编码)
     - [密码学和编码](#密码学和编码)
-      - [用在哪里](#用在哪里)
       - [分辨是什么类型的](#分辨是什么类型的)
       - [解密](#解密)
       - [工具介绍](#工具介绍)
@@ -19,7 +13,7 @@
   - [术语](#术语)
     - [日志分析](#日志分析)
     - [端口](#端口)
-      - [待审核、精简：常见端口](#待审核精简常见端口)
+      - [常见端口](#常见端口)
     - [蜜罐](#蜜罐)
       - [OSI七层协议](#osi七层协议)
       - [UDP](#udp)
@@ -28,10 +22,6 @@
       - [路由算法](#路由算法)
     - [DNS](#dns)
       - [DNS基础](#dns基础)
-      - [相关漏洞](#相关漏洞)
-        - [DDoS 攻击](#ddos-攻击)
-        - [DNS劫持](#dns劫持)
-        - [DNS中毒](#dns中毒)
       - [邮件协议族](#邮件协议族)
       - [邮件安全协议](#邮件安全协议)
     - [HTTP/HTTPS基础知识](#httphttps基础知识)
@@ -39,13 +29,7 @@
       - [访问类型](#访问类型)
       - [状态码](#状态码)
     - [代理](#代理)
-    - [操作系统](#操作系统)
-      - [Linux](#linux)
-        - [更新安装列表](#更新安装列表)
-        - [压缩](#压缩)
-      - [centos](#centos)
-      - [Ubuntu](#ubuntu)
-    - [待完善：编程语言](#待完善编程语言)
+    - [编程语言](#编程语言)
       - [PYTHON](#python)
       - [JAVASCRIPT](#javascript)
       - [JAVA](#java)
@@ -60,42 +44,37 @@
       - [非关系型](#非关系型)
         - [非关系型数据库代表](#非关系型数据库代表)
     - [开源渗透测试标准](#开源渗透测试标准)
-    - [Linux](#linux-1)
+    - [Linux](#linux)
+        - [更新安装列表](#更新安装列表)
+        - [压缩](#压缩)
       - [常见有用命令](#常见有用命令)
     - [windows](#windows)
-      - [windows 不同系统](#windows-不同系统)
-        - [win10特殊功能](#win10特殊功能)
       - [windows 常见命令](#windows-常见命令)
 - [信息收集](#信息收集)
-  - [待完善：我的搜集流程](#待完善我的搜集流程)
-    - [网站](#网站)
   - [信息搜集开源项目](#信息搜集开源项目)
-  - [github监控](#github监控)
   - [web组成框架信息收集](#web组成框架信息收集)
     - [源代码](#源代码)
-    - [操作系统](#操作系统-1)
     - [中间件](#中间件)
-  - [被动信息收集](#被动信息收集)
   - [学会用搜索引擎](#学会用搜索引擎)
   - [源码层面收集](#源码层面收集)
-    - [响应头](#响应头)
+      - [备案](#备案)
+      - [特殊文件](#特殊文件)
+      - [公司](#公司)
+      - [网站附属产品](#网站附属产品)
     - [CMS识别](#cms识别)
-    - [待补充：github监控](#待补充github监控)
-  - [主动信息收集](#主动信息收集)
     - [拓展信息收集](#拓展信息收集)
       - [子域名收集](#子域名收集)
+        - [相似域名](#相似域名)
         - [方法一：爆破子域名](#方法一爆破子域名)
         - [方法二：旁站搜集](#方法二旁站搜集)
         - [方法三：证书](#方法三证书)
-    - [获取路径](#获取路径)
       - [目录爆破](#目录爆破)
+        - [工具](#工具)
         - [目录爆破经验](#目录爆破经验)
         - [图像](#图像)
         - [阻塞遍历序列](#阻塞遍历序列)
-      - [手工目录爆破](#手工目录爆破)
-      - [工具](#工具)
 - [工具](#工具-1)
-  - [字典](#字典)
+    - [配置上网](#配置上网)
   - [学会上网](#学会上网)
     - [google hack](#google-hack)
     - [暗网](#暗网)
@@ -108,13 +87,10 @@
     - [Swaks](#swaks)
   - [抓包](#抓包)
     - [进程装包](#进程装包)
-    - [手机抓包](#手机抓包)
-    - [爬整个网站](#爬整个网站)
-  - [HTTrack](#httrack)
   - [DNS信息收集](#dns信息收集)
     - [dig](#dig)
     - [nslookup](#nslookup)
-    - [hash相關工具](#hash相關工具)
+    - [hash相关工具](#hash相关工具)
       - [识别](#识别)
       - [破解](#破解)
         - [john](#john)
@@ -135,21 +111,22 @@
     - [抓包工具](#抓包工具)
       - [Wireshark](#wireshark)
       - [Burpsuite](#burpsuite)
-    - [漏洞扫描工具](#漏洞扫描工具)
+    - [通用漏洞扫描工具](#通用漏洞扫描工具)
       - [Awvs](#awvs)
       - [AppScan](#appscan)
-      - [kali](#kali)
+    - [kali](#kali)
       - [安装kali](#安装kali)
         - [拿到shell后](#拿到shell后)
           - [windows](#windows-1)
-    - [网站](#网站-1)
+    - [网站](#网站)
 - [web安全](#web安全)
 - [系统漏洞](#系统漏洞)
   - [工具](#工具-2)
     - [探测工具简介](#探测工具简介)
     - [EXP 工具](#exp-工具)
         - [Metasploit](#metasploit)
-- [APP封装](#app封装)
+- [APP漏洞](#app漏洞)
+  - [抓包](#抓包-1)
   - [社会工程学](#社会工程学)
     - [套话](#套话)
       - [社交媒体](#社交媒体)
@@ -293,25 +270,24 @@
       - [图片上传](#图片上传)
   - [接口乱用](#接口乱用)
     - [短信轰炸](#短信轰炸)
-  - [DDOS 攻击](#ddos-攻击-1)
+  - [DDOS 攻击](#ddos-攻击)
     - [攻击过程](#攻击过程)
       - [DDOS 攻击手段](#ddos-攻击手段)
-      - [利用Nmap完成DDos攻击](#利用nmap完成ddos攻击)
-  - [待补充：DNS劫持](#待补充dns劫持)
-  - [待补充：ARP欺骗](#待补充arp欺骗)
   - [密码](#密码)
-- [待补充：侦查](#待补充侦查)
-  - [待补充： 日志审计](#待补充-日志审计)
 - [经验积累](#经验积累)
-  - [待补充:第三方软件漏洞](#待补充第三方软件漏洞)
-    - [weblogic漏洞](#weblogic漏洞)
+  - [CMS漏洞](#cms漏洞)
+    - [敏感信息搜集](#敏感信息搜集)
+    - [工具](#工具-4)
+    - [dedecms](#dedecms)
+      - [基本信息](#基本信息)
+      - [敏感信息](#敏感信息)
+    - [API](#api)
   - [语言特性](#语言特性)
+    - [PHP](#php-1)
     - [JAVA](#java-1)
       - [SQL注入](#sql注入)
       - [JSON WEB TOKEN](#json-web-token)
         - [破解](#破解-1)
-  - [待重点完善：中间件](#待重点完善中间件)
-  - [待重点完善：CVE](#待重点完善cve)
   - [待重点完善：WAF绕过](#待重点完善waf绕过)
     - [基本知识](#基本知识-1)
     - [WAF经验](#waf经验)
@@ -331,7 +307,7 @@
     - [攻破类似网站](#攻破类似网站)
       - [如何攻击更多人](#如何攻击更多人)
     - [待系统整理：一句话木马](#待系统整理一句话木马)
-      - [php](#php-1)
+      - [php](#php-2)
   - [密码](#密码-1)
     - [windows密码获取和破解](#windows密码获取和破解)
     - [Linux密码获取和破解](#linux密码获取和破解)
@@ -343,12 +319,12 @@
   - [信息收集](#信息收集-1)
     - [源码分析](#源码分析)
     - [获得shell后信息收集](#获得shell后信息收集)
+      - [网站信息查询](#网站信息查询)
     - [溯源](#溯源)
       - [很强大的溯源工具](#很强大的溯源工具)
       - [已知名字](#已知名字)
       - [已知邮箱](#已知邮箱)
         - [获取电话号码](#获取电话号码)
-      - [网站信息查询](#网站信息查询)
       - [IP 定位](#ip-定位)
       - [已知电话号码](#已知电话号码)
         - [查询社交账号](#查询社交账号)
@@ -381,19 +357,13 @@
     - [后门软件](#后门软件)
       - [远程控制](#远程控制)
         - [Quasar](#quasar)
-- [待补充，可能不要这一小节：技巧](#待补充可能不要这一小节技巧)
-  - [HTTP 参数污染](#http-参数污染)
 - [隐藏技术](#隐藏技术)
   - [实用工具](#实用工具)
     - [匿名工具](#匿名工具)
   - [免杀](#免杀)
   - [持久化](#持久化)
     - [防止掉入蜜罐](#防止掉入蜜罐)
-  - [匿名代理纯净的渗透环境](#匿名代理纯净的渗透环境)
     - [日志删除](#日志删除)
-    - [使用tor网络](#使用tor网络)
-    - [将流量隐藏于合法流量中](#将流量隐藏于合法流量中)
-    - [修改来源于类型](#修改来源于类型)
     - [获得 Shell后](#获得-shell后)
       - [进程迁移](#进程迁移)
       - [系统命令](#系统命令)
@@ -436,7 +406,7 @@
 预计2022年完成
 
 
-很抱歉，这篇文章你看到的时候还是粗糙的，文章更改可能出现在各个章节，文章每天都会变更好一点O(∩_∩)O。更新很频繁，你选择克隆到本地一直读一份旧的不如收藏网址。不过克隆到本地之后你可以选择打开左侧目录栏树，来帮助你快速构建完整目录结构理解（目前我还在寻求直接显示全面目录树的方法）。
+很抱歉，这篇文章你看到的时候还是粗糙的，文章更改可能出现在各个章节，文章每天都会变更好一点O(∩_∩)O。更新很频繁，你选择克隆到本地一直读一份旧的不如收藏网址。不过克隆到本地之后你可以选择合适的工具打开左侧目录栏树，来帮助你快速构建完整目录结构理解（目前我还在寻求直接显示全面目录树的方法）。
 
 食用这篇文章的最好方法就是每次有新收获去在指定章节完善它。所以如果你有热情跟我一起进步，有责任心自始至终的完成这篇文章，那么请加群联系我吧。
 
@@ -452,22 +422,9 @@
 
 *修改文章错误、语言繁琐*
 
-# 准备工作
 
 
-
-
-
-## 虚拟机系统配置
-
-### 配置上网
-
-
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20210515003648812.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
-
-
-
-## 基本常见知识点
+# 常见知识点
 
 ### 编码
 
@@ -482,11 +439,6 @@
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210603154257943.png)
 
-
-
-#### 用在哪里
-
-时间戳:网站源码通常不会直接显示比如2021/6/28而是会转换为时间戳的形式
 
 #### 分辨是什么类型的
 
@@ -565,9 +517,12 @@ sha1已经完全被破解，具体参考王小云
 
 ### 端口
 
-#### 待审核、精简：常见端口
+#### 常见端口
+
 
 有些端口漏洞利用方式我没有详细列出，补充链接为https://websec.readthedocs.io/zh/latest/info/port.html
+
+一般你扫描都是用nmap之类的工具，这类工具会打印扫描出来什么端口以及这是什么类型服务。所以这块记得常见的就可以。
 
 **web:80**
 80端口通常提供web服务。
@@ -578,88 +533,44 @@ ftp的端口号20、21的区别前者是数据端口，后者是控制端口
 当你发现ip开放21端口，你可以在cmd中输入ftp ip查看是否能访问
 默认用户名密码 anonymous:anonymous
 
-FTP通常用作对远程服务器进行管理，典型应用就是对web系统进行管理。一旦FTP密码泄露就直接威胁web系统安全，甚至黑客通过提权可以直接控制服务器。这里剖析渗透FTP服务器的几种方法。
-
->（1）基础爆破：ftp爆破工具很多，这里我推owasp的Bruter,hydra以及msf中的ftp爆破模块。
->（2) ftp匿名访问：用户名：anonymous 密码：为空或者任意邮箱
->（3）后门vsftpd ：version 2到2.3.4存在后门漏洞，攻击者可以通过该漏洞获取root权限。（https://www.freebuf.com/column/143480.html）
->（4）嗅探：ftp使用明文传输技术（但是嗅探给予局域网并需要欺骗或监听网关）,使用Cain进行渗透。
->（5）ftp远程代码溢出。（https://blog.csdn.net/weixin_42214273/article/details/82892282）
->（6）ftp跳转攻击。（https://blog.csdn.net/mgxcool/article/details/48249473）
 
 
 **SSH：22**
 SSH 是协议，通常使用 OpenSSH 软件实现协议应用。SSH 为 Secure Shell 的缩写，由 IETF 的网络工作小组（Network Working Group）所制定；SSH 为建立在应用层和传输层基础上的安全协议。SSH 是目前较可靠，专为远程登录会话和其它网络服务提供安全性的协议。利用 SSH 协议可以有效防止远程管理过程中的信息泄露问题。
 
->（1）弱口令，可使用工具hydra，msf中的ssh爆破模块。
->（2）防火墙SSH后门。（https://www.secpulse.com/archives/69093.html）
->（3）28退格 OpenSSL
->（4）openssh 用户枚举 CVE-2018-15473。（https://www.anquanke.com/post/id/157607）
 
 **23 Telnet**
 telnet是一种旧的远程管理方式，使用telnet工具登录系统过程中，网络上传输的用户和密码都是以明文方式传送的，黑客可使用嗅探技术截获到此类密码。
 
->（1）暴力破解技术是常用的技术，使用hydra,或者msf中telnet模块对其进行破解。
->（2）在linux系统中一般采用SSH进行远程访问，传输的敏感数据都是经过加密的。而对于windows下的telnet来说是脆弱的，因为默认没有经过任何加密就在网络中进行传输。使用cain等嗅探工具可轻松截获远程登录密码。
-
+**888/888**
+宝塔
 **smtp：25/465**
 smtp：邮件协议，在linux中默认开启这个服务，可以向对方发送钓鱼邮件
 
->默认端口：25（smtp）、465（smtps）
->（1）爆破：弱口令
->（2）未授权访问
 
 **53**
 53端口是DNS域名服务器的通信端口，通常用于域名解析。也是网络中非常关键的服务器之一。这类服务器容易受到攻击。对于此端口的渗透，一般有三种方式。
-
->53端口是DNS域名服务器的通信端口，通常用于域名解析。也是网络中非常关键的服务器之一。这类服务器容易受到攻击。对于此端口的渗透，一般有三种方式。
->（1）使用DNS远程溢出漏洞直接对其主机进行溢出攻击，成功后可直接获得系统权限。（https://www.seebug.org/vuldb/ssvid-96718）
->（2）使用DNS欺骗攻击，可对DNS域名服务器进行欺骗，如果黑客再配合网页木马进行挂马攻击，无疑是一种杀伤力很强的攻击，黑客可不费吹灰之力就控制内网的大部分主机。这也是内网渗透惯用的技法之一。（https://baijiahao.baidu.com/s?id=1577362432987749706&wfr=spider&for=pc）
->（3）拒绝服务攻击，利用拒绝服务攻击可快速的导致目标服务器运行缓慢，甚至网络瘫痪。如果使用拒绝服务攻击其DNS服务器。将导致用该服务器进行域名解析的用户无法正常上网。（http://www.edu.cn/xxh/fei/zxz/201503/t20150305_1235269.shtml）
->（4）DNS劫持。（https://blog.csdn.net/qq_32447301/article/details/77542474）
-
-
-
 
 
 **135**
 135端口主要用于使用RPC协议并提供DCOM服务，通过RPC可以保证在一台计算机上运行的程序可以顺利地执行远程计算机上的代码；使用DCOM可以通过网络直接进行通信，能够跨包括HTTP协议在内的多种网络传输。同时这个端口也爆出过不少漏洞，最严重的就是缓冲区溢出漏洞，曾经疯狂一时的‘冲击波’病毒就是利用这个漏洞进行传播的。对于135端口的渗透，黑客的渗透方法为:
 
->（1）查找存在RPC溢出的主机，进行远程溢出攻击，直接获得系统权限。如用‘DSScan’扫描存在此漏洞的主机。对存在漏洞的主机可使用‘ms05011.exe’进行溢出，溢出成功后获得系统权限。（https://wenku.baidu.com/view/68b3340c79563c1ec5da710a.html）
->（2）扫描存在弱口令的135主机，利用RPC远程过程调用开启telnet服务并登录telnet执行系统命令。系统弱口令的扫描一般使用hydra。对于telnet服务的开启可使用工具kali链接。（https://wenku.baidu.com/view/c8b96ae2700abb68a982fbdf.html）
-
 
 **139/445**
 445 SMB     ms17-010永恒之蓝
-139端口是为‘NetBIOS SessionService’提供的，主要用于提供windows文件和打印机共享以及UNIX中的Samba服务。445端口也用于提供windows文件和打印机共享，在内网环境中使用的很广泛。这两个端口同样属于重点攻击对象，139/445端口曾出现过许多严重级别的漏洞。下面剖析渗透此类端口的基本思路。
+139端口是为‘NetBIOS SessionService’提供的，主要用于提供windows文件和打印机共享以及UNIX中的Samba服务。445端口也用于提供windows文件和打印机共享，在内网环境中使用的很广泛。这两个端口同样属于重点攻击对象，
 
->（1）对于开放139/445端口的主机，一般尝试利用溢出漏洞对远程主机进行溢出攻击，成功后直接获得系统权限。利用msf的ms-017永恒之蓝。（https://blog.csdn.net/qq_41880069/article/details/82908131）
->（2）对于攻击只开放445端口的主机，黑客一般使用工具‘MS06040’或‘MS08067’.可使用专用的445端口扫描器进行扫描。NS08067溢出工具对windows2003系统的溢出十分有效，工具基本使用参数在cmd下会有提示。（https://blog.csdn.net/god_7z1/article/details/6773652）
->（3）对于开放139/445端口的主机，黑客一般使用IPC$进行渗透。在没有使用特点的账户和密码进行空连接时，权限是最小的。获得系统特定账户和密码成为提升权限的关键了，比如获得administrator账户的口令。（https://blog.warhut.cn/dmbj/145.html）
->（4）对于开放139/445端口的主机，可利用共享获取敏感信息，这也是内网渗透中收集信息的基本途径。
+
 
 **1433 MSSQL**
 1433是SQLServer默认的端口，SQL Server服务使用两个端口：tcp-1433、UDP-1434.其中1433用于供SQLServer对外提供服务，1434用于向请求者返回SQLServer使用了哪些TCP/IP端口。1433端口通常遭到黑客的攻击，而且攻击的方式层出不穷。最严重的莫过于远程溢出漏洞了，如由于SQL注射攻击的兴起，各类数据库时刻面临着安全威胁。利用SQL注射技术对数据库进行渗透是目前比较流行的攻击方式，此类技术属于脚本渗透技术。
-
->（1）对于开放1433端口的SQL Server2000的数据库服务器，黑客尝试使用远程溢出漏洞对主机进行溢出测试，成功后直接获得系统权限。（https://blog.csdn.net/gxj022/article/details/4593015）
->（2）暴力破解技术是一项经典的技术。一般破解的对象都是SA用户。通过字典破解的方式很快破解出SA的密码。（https://blog.csdn.net/kali_linux/article/details/50499576）
->（3）嗅探技术同样能嗅探到SQL Server的登录密码。
->（4）由于脚本程序编写的不严密，例如，程序员对参数过滤不严等，这都会造成严重的注射漏洞。通过SQL注射可间接性的对数据库服务器进行渗透，通过调用一些存储过程执行系统命令。可以使用SQL综合利用工具完成。
-
 
 **1521 Oracle **
 
 1521是大型数据库Oracle的默认监听端口，估计新手还对此端口比较陌生，平时大家接触的比较多的是Access，MSSQL以及MYSQL这三种数据库。一般大型站点才会部署这种比较昂贵的数据库系统。对于渗透这种比较复杂的数据库系统，黑客的思路如下：
 
->（1）Oracle拥有非常多的默认用户名和密码，为了获得数据库系统的访问权限，破解数据库系统用户以及密码是黑客必须攻破的一道安全防线。
->（2）SQL注射同样对Oracle十分有效，通过注射可获得数据库的敏感信息，包括管理员密码等。
->（3）在注入点直接创建java，执行系统命令。（4）https://www.leiphone.com/news/201711/JjzXFp46zEPMvJod.html
-
-
 **2409**
 NFS（Network File System）即网络文件系统，是FreeBSD支持的文件系统中的一种，它允许网络中的计算机之间通过TCP/IP网络共享资源。在NFS的应用中，本地NFS的客户端应用可以透明地读写位于远端NFS服务器上的文件，就像访问本地文件一样。如今NFS具备了防止被利用导出文件夹的功能，但遗留系统中的NFS服务配置不当，则仍可能遭到恶意攻击者的利用。
-
->未授权访问。（https://www.freebuf.com/articles/network/159468.html） (http://www.secist.com/archives/6192.htm)
 
 **3306**
 MYSQL数据库默认的监听端口
@@ -667,74 +578,38 @@ MYSQL数据库默认的监听端口
 **3389端口渗透剖析**
 3389是windows远程桌面服务默认监听的端口，管理员通过远程桌面对服务器进行维护，这给管理工作带来的极大的方便。
 
->（1）对于windows2000的旧系统版本，使用‘输入法漏洞’进行渗透。
->（2）cain是一款超级的渗透工具，同样支持对3389端口的嗅探。
->（3）Shift粘滞键后门：5次shift后门
->（4）社会工程学通常是最可怕的攻击技术，如果管理者的一切习惯和规律被黑客摸透的话，那么他管理的网络系统会因为他的弱点被渗透。（5）爆破3389端口。这里还是推荐使用hydra爆破工具。（6）ms12_020死亡蓝屏攻击。（https://www.cnblogs.com/R-Hacker/p/9178066.html）（7）https://www.cnblogs.com/backlion/p/9429738.html
-
 
 **4899端口**
 是remoteadministrator远程控制软件默认监听的端口，也就是平时常说的radmini影子。radmini目前支持TCP/IP协议，应用十分广泛，在很多服务器上都会看到该款软件的影子。对于此软件的渗透，思路如下：
-
->（1）radmini同样存在不少弱口令的主机，通过专用扫描器可探测到此类存在漏洞的主机。
->（2）radmini远控的连接密码和端口都是写入到注册表系统中的，通过使用webshell注册表读取功能可读取radmini在注册表的各项键值内容，从而破解加密的密码散列。
 
 **5432端口渗透剖析**
 
 PostgreSQL是一种特性非常齐全的自由软件的对象–关系型数据库管理系统，可以说是目前世界上最先进，功能最强大的自由数据库管理系统。包括kali系统中msf也使用这个数据库；浅谈postgresql数据库攻击技术 大部分关于它的攻击依旧是sql注入，所以注入才是数据库不变的话题。
 
->（1）爆破：弱口令：postgres postgres
->（2）缓冲区溢出：CVE-2014-2669。（http://drops.xmd5.com/static/drops/tips-6449.html）（3）远程代码执行：CVE-2018-1058。（https://www.secpulse.com/archives/69153.html）
-
-
 **5631端口渗透剖析**
 5631端口是著名远程控制软件pcanywhere的默认监听端口，同时也是世界领先的远程控制软件。利用此软件，用户可以有效管理计算机并快速解决技术支持问题。由于软件的设计缺陷，使得黑客可随意下载保存连接密码的*.cif文件，通过专用破解软件进行破解。这些操作都必须在拥有一定权限下才可完成，至少通过脚本渗透获得一个webshell。通常这些操作在黑客界被称为pcanywhere提权技术。
-
->PcAnyWhere提权。（https://blog.csdn.net/Fly_hps/article/details/80377199）
-
 
 **5900端口渗透剖析**
 5900端口是优秀远程控制软件VNC的默认监听端口，此软件由著名的AT&T的欧洲研究实验室开发的。VNC是在基于unix和linux操作系统的免费的开放源码软件，远程控制能力强大，高效实用，其性能可以和windows和MAC中的任何一款控制软件媲美。对于该端口的渗透，思路如下：
 
->（1）VNC软件存在密码验证绕过漏洞，此高危漏洞可以使得恶意攻击者不需要密码就可以登录到一个远程系统。
->（2）cain同样支持对VNC的嗅探，同时支持端口修改。
->（3）VNC的配置信息同样被写入注册表系统中，其中包括连接的密码和端口。利用webshell的注册表读取功能进行读取加密算法，然后破解。（4）VNC拒绝服务攻击（CVE-2015-5239）。（http://blogs.360.cn/post/vnc%E6%8B%92%E7%BB%9D%E6%9C%8D%E5%8A%A1%E6%BC%8F%E6%B4%9Ecve-2015-5239%E5%88%86%E6%9E%90.html）（5）VNC权限提升（CVE-2013-6886）。
-
+>
 **6379端口渗透剖析**
 
 Redis是一个开源的使用c语言写的，支持网络、可基于内存亦可持久化的日志型、key-value数据库。关于这个数据库这两年还是很火的，暴露出来的问题也很多。特别是前段时间暴露的未授权访问。这种数据库通常用来存储序列化后的字符串。
 
->（1）爆破：弱口令
->（2）未授权访问+配合ssh key提权。（http://www.alloyteam.com/2017/07/12910/）
 
 **7001/7002端口渗透剖析**
 
 7001/7002通常是weblogic中间件端口
 
->（1）弱口令、爆破，弱密码一般为weblogic/Oracle@123 or weblogic
->（2）管理后台部署 war 后门
->（3）SSRF
->（4）反序列化漏洞
->（5）weblogic_uachttps://github.com/vulhub/vulhub/tree/master/weblogic/ssrfhttps://bbs.pediy.com
 
 
 **8080端口渗透剖析**
 8080端口通常是apache_Tomcat服务器默认监听端口，apache是世界使用排名第一的web服务器。国内很多大型系统都是使用apache服务器，对于这种大型服务器的渗透，主要有以下方法：
 
->（1）Tomcat远程代码执行漏洞（https://www.freebuf.com/column/159200.html）
->（2）Tomcat任意文件上传。（http://liehu.tass.com.cn/archives/836）
->（3）Tomcat远程代码执行&信息泄露。（https://paper.seebug.org/399/）
->（4）Jboss远程代码执行。（http://mobile.www.cnblogs.com/Safe3/archive/2010/01/08/1642371.html）
->（5）Jboss反序列化漏洞。（https://www.zybuluo.com/websec007/note/838374）
->（6）Jboss漏洞利用。（https://blog.csdn.net/u011215939/article/details/79141624）
-
 **27017端口渗透剖析**
 
 MongoDB，NoSQL数据库；攻击方法与其他数据库类似
-
->（1）爆破：弱口令
->（2）未授权访问；（http://www.cnblogs.com/LittleHann/p/6252421.html）（3）http://www.tiejiang.org/1915
-
 
 
 
@@ -844,47 +719,8 @@ DGA域名有多种生成方式，根据种子类型可以分为确定性和不�
  **DNS隧道**
 DNS隧道工具将进入隧道的其他协议流量封装到DNS协议内，在隧道上传输。这些数据包出隧道时进行解封装，还原数据。
 
-#### 相关漏洞
 
-当黑客利用域名系统 (DNS) 中的漏洞时，我们称之为 DNS 攻击。
 
-一些最常见的 DNS 攻击类型是 DDoS 攻击、DNS 重新绑定攻击、缓存中毒、分布式反射 DoS 攻击、DNS 隧道、DNS 劫持、基本 NXDOMAIN 攻击、幻像域攻击、随机子域攻击、TCP SYN Floods 和域锁定攻击。我们将在本文中逐一介绍。
-
-##### DDoS 攻击
-
-一个分布式拒绝服务（DDoS）攻击是一种恶意企图轰击网络或互联网流量及其周边基础设施的中断有针对性的网络或服务器的正常交通。尽管 DDoS 不一定是 DNS 攻击，但 DNS 系统是一个受欢迎的目标。
-DDoS 攻击通过使用多个受感染的计算机系统作为攻击流量的来源来实现有效性。通常，攻击者会部署机器人来用流量轰炸目标。仅使用一个机器人的情况称为拒绝服务 (DoS) 攻击，主要是本地化的或影响很小。另一方面，DDoS 具有更广泛的影响，需要更多资源。
-
-被利用的机器可能包括计算机和其他网络资源，例如物联网 (IoT) 设备。为了更好地了解 DDoS 攻击的工作原理，请想象一条人为地塞满汽车的高速公路，从而阻止正常交通并导致交通拥堵。
-
-针对 DNS 的 DDoS 攻击有很多种类型，我们将在下面讨论其中的一些。
-
-最大的 DDoS 攻击之一是 Dyn DNS 攻击。Dyn 是一家互联网性能管理 (IPM) 公司 - 一家领先的 DNS 服务提供商。Dyn 攻击发生在 2016 年 10 月 21 日。它影响了美国和欧洲的大部分互联网。攻击源是 Mirai 僵尸网络，由打印机、互联网协议 (IP) 摄像机和数字录像机等物联网设备组成。
-
-##### DNS劫持
-
-DNS劫持有多种方式，比较早期的攻击方式是通过攻击域名解析服务器，或是伪造DNS响应的方法，来将域名解析到恶意的IP地址。
-
-随着互联网应用的不断发展，出现了基于废弃记录的劫持方式。这种方式发生的场景是次级域名的解析记录指向第三方资源，而第三方资源被释放后，解析记录并没有取消，在这种场景下，可以对应申请第三方资源，以获取控制解析记录的能力。
-
-在windows用户下，用户只需要修改其C:\WINDOWS\System32\drivers\etc\host文件，将文件改成钓鱼链接，就可以达到欺骗用户账号密码的效果
-
-##### DNS中毒
-
-DNS中毒攻击通常发生的方式是这样的： 
-
-攻击者冒充 DNS 名称服务器
-他们向 DNS 解析器发出请求 
-他们在真正的 DNS 名称服务器可以回答之前伪造对 DNS 解析器的回复 
-DNS 请求和查询使用 UDP（用户数据报协议），它不需要握手来验证接收者是他们声称的身份。通过这个 UDP 漏洞，攻击者可以发送带有虚假标头数据的伪造响应，将连接路由到其他地方。
-
-由于无法检查条目是否真实，DNS 解析器会自动缓存数据。这意味着缓存现在已中毒，它将一直处于中毒状态，直到条目的生存时间 (TTL) 到期，或者手动刷新 DNS 缓存。 
-
-每次用户尝试输入攻击者篡改的某个网址时，您的浏览器都会从缓存中检索错误的地址，因为它更快。 
-
-尽管 DNS 缓存过程中似乎存在内置安全漏洞，但 DNS 中毒攻击并不容易。为了使缓存中毒，攻击者有很短的时间进入中间并在来自正确名称服务器的实际响应返回之前发送假回复。
-
-最重要的是，要成功欺骗用户，攻击者需要了解几个外部因素。例如，DNS 解析器可能使用随机端口、请求 ID 号、查询的实际名称服务器等。没有这些信息，攻击将不会成功。
 
 #### 邮件协议族
 
@@ -976,78 +812,14 @@ HTTPS多了SSL层，但一般而言这对于黑客而言于事无补。因为我
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210625105740662.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 
-**正向代理**
-
-> 
-
-### 操作系统
-
-#### Linux
-
-https://linuxtools-rst.readthedocs.io/zh_CN/latest/index.html#
-
-##### 更新安装列表
-
-```bash
-apt-get update
-apt-get upgrade
-apt-get dist-upgrade
-```
-
-##### 压缩
-
-**tar**
-tar是归档命令
--c表示创建
--v表示详细（可选）,如果我们想提取文件并“静默”提取，我们可以删除-v开关
--f写入或读取以下文件
-
-```bash
-压缩
- tar -cvf NB.tar nullbyte1 nullbyte2 nullbyte3
-```
-
--x开关从压缩包中提取这些文件
-
-```bash
-解压
-tar -xvf NB.tar
-```
-
-**gz**
-后缀.gz
-
-```bash
-压缩
-gzip NB.*
-```
-
-```bash
-解压
-gunzip NB.*
-```
 
 
-**bzip2**
-后缀.bz2
 
-```bash
-压缩
-gzip NB.*
-```
 
-```bash
-解压
-bunzip2 NB.*
-```
 
-重要目录 /etc/shadow
+### 编程语言
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210715213229225.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 
-####  centos
-
-#### Ubuntu
-
-### 待完善：编程语言
 
 #### PYTHON
 
@@ -1059,7 +831,6 @@ python 进程 & 线程，多进程
 python 闭包
 python lambda
 
-通过反序化的原理可以得出是有的
 
 #### JAVASCRIPT
 js里面放前端函数
@@ -1131,25 +902,11 @@ mysql的网站注入，5.0以上和5.0以下有什么区别？
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210705151652986.png)
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210705151920287.png)
 
-3.在渗透过程中，收集目标站注册人邮箱对我们有什么价值？
 **mysql 基本信息**
 
 >默认端口：3306
 >注释 `--`
 >url使用注释一般要加上符号`+`,即`--+`。加号代表空格
-
-mysql的管理员密码一般存放在哪
-
-**信息收集**
-
-```bash
-use auxiliary/scanner/mysql/mysql_version
-set rhosts 192.168.157.130
-run
-```
-
-
-**mysql 日志**
 
 #### 非关系型
 
@@ -1180,6 +937,66 @@ SQL。通常指数据以对象的形式存储在数据库中，而对象之间�
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210521222332114.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 
 ### Linux
+
+https://linuxtools-rst.readthedocs.io/zh_CN/latest/index.html#
+
+##### 更新安装列表
+
+```bash
+apt-get update
+apt-get upgrade
+apt-get dist-upgrade
+```
+
+##### 压缩
+
+**tar**
+tar是归档命令
+-c表示创建
+-v表示详细（可选）,如果我们想提取文件并“静默”提取，我们可以删除-v开关
+-f写入或读取以下文件
+
+```bash
+压缩
+ tar -cvf NB.tar nullbyte1 nullbyte2 nullbyte3
+```
+
+-x开关从压缩包中提取这些文件
+
+```bash
+解压
+tar -xvf NB.tar
+```
+
+**gz**
+后缀.gz
+
+```bash
+压缩
+gzip NB.*
+```
+
+```bash
+解压
+gunzip NB.*
+```
+
+
+**bzip2**
+后缀.bz2
+
+```bash
+压缩
+gzip NB.*
+```
+
+```bash
+解压
+bunzip2 NB.*
+```
+
+重要目录 /etc/shadow
+
 
 #### 常见有用命令
 
@@ -1221,13 +1038,6 @@ SQL。通常指数据以对象的形式存储在数据库中，而对象之间�
 ### windows
 
 
-
-#### windows 不同系统
-
-##### win10特殊功能
-
-有linux子系统
-
 #### windows 常见命令
 
 
@@ -1266,42 +1076,10 @@ Certutil.exe是作为证书服务的一部分安装的命令行程序。 我们�
 
 
 # 信息收集
-
-请重视本节，笔者读了很多关于信息收集的文章，这节尽可能的详细列举出你可以尝试的信息收集对象。对于很多万人挖的漏洞来说，你收集到了别人没有收集过的资产，往往离挖到漏洞就不远了。
-
+如果你是攻击中小型网站，你信息搜集第一步是获取网站全貌，在着重点于收集网站第三方或源码，这会加快你的渗透速度
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210520155239679.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
-查询域名注册邮箱
-通过备案号查询域名
-反查注册邮箱#
-反查注册人
-通过注册人查询到的域名在查询邮箱
-通过上一步邮箱去查询域名
 
 
-## 待完善：我的搜集流程
-
-### 网站
-
-打开记事本记下我搜集的信息 ，按照以下步骤依次搜集
-
-获取网站全貌
-耗时：
-
-> fofa ,shodan, zoomeye
-> 查看源码结构：F12,（看架构，看数据包格式、命名技巧）httrack,burpsuite爬虫（爬虫后可以搜索敏感关键词）
-
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20210713170019394.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
-
-
-找到真实ip
-
-> 探索：nslookup,超级ping
-
-发现网站敏感信息
-
-> 搜索子域名：搜索引擎
-
-靠运气：发现源码层面
 
 >
 
@@ -1310,9 +1088,8 @@ Certutil.exe是作为证书服务的一部分安装的命令行程序。 我们�
 
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210630204515852.png)
 
-## github监控
 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20210630211540820.png)
+
 
 ## web组成框架信息收集
 
@@ -1323,21 +1100,41 @@ Certutil.exe是作为证书服务的一部分安装的命令行程序。 我们�
 查看header:contype
 文件命名规则
 
-### 操作系统
+
 
 ### 中间件
 
 apache,iis,tomcat,nginx
 
-## 被动信息收集
-
-**查看网站使用的开源框架**
-
-现在很多开发者已经特别懒了
-
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20210517140611240.png)
 
 
+## 学会用搜索引擎
+
+(以下的baidu代表站点)
+你搜索其标题还可以得到更多的信息
+或者搜baidu
+或者搜baidu php
+
+## 源码层面收集
+
+你可以在淘宝、闲鱼上购买源代码比如搜索关键词资金盘系统
+
+还可以去一些比如专门卖灰色源码的网站进行收集比如http://www.wayu.cn/muban/dedecms?v=free
+
+#### 备案
+注册人
+查询域名注册邮箱
+通过备案号查询域名
+反查注册邮箱
+反查注册人
+通过注册人查询到的域名在查询邮箱
+通过上一步邮箱去查询域名
+域名登记
+#### 特殊文件
+**网站使用说明书**
+
+通常包含一些敏感信息，比如登录敏感目录，管理员默认密码，密码长度等
+#### 公司
 **企业附属品**
 
 采购巩固、版权声明
@@ -1350,28 +1147,34 @@ apache,iis,tomcat,nginx
 
 附属子孙公司：这个可以会找到目标系统网络相互可通
 
+**公司信息收集：招股书**
+招股书涵盖的信息量很大，且容易获得，只需要用搜索引擎搜素：xxx招股书，即可获得。而其中许多公司得招股书中，**会有大量得资产域名**。在招股书中，其中目标公司股权结构也非常清晰。目标公司重要人员的其他重要信息也非常清晰：例如**手写签名：（用于后期钓鱼）**。
+**例如注册商标：**（用户了解更多的目标资产与品牌）。**股权结构，需要重点关注，非技术类人员，**例如：销售，财务，后勤等职务的人员。此类人员是目标的重要人员，而且此类人员相对其他技术类人员安全意识较若，为“钓鱼”而铺垫。
+查看股份穿透图，一般来说控股超过50%的子公司的漏洞SRC收录的可能性都比较大。
 
-## 学会用搜索引擎
+**公司信息收集：人肉目标对象**
+对目标人物初级收集通常要定在非技术人员，这类人员特征是在领英和脉脉上照片是西装。
+般的大型内网渗透中，需要关注大致几个组
+（1）IT组/研发组    他们掌握在大量的内网密码，数据库密码等。收集研发最好的入口点是他们运营的网站，网站中可能包含网站的开发、管理维护等人员的信息。
+（2）秘书组     他们掌握着大量的目标机构的内部传达文件，为信息分析业务提供信息，在反馈给技术业务来确定渗透方向
+（3）domain admins组  root/administrator
+（4）财务组   他们掌握着大量的资金往来与目标企业的规划发展，并且可以通过资金，来判断出目标组织的整体架构
+（5）CXX组 ceo cto coo等，不同的目标组织名字不同，如部长，厂长，经理等。
 
-(以下的baidu代表站点)
-你搜索其标题还可以得到更多的信息
-或者搜baidu
-或者搜baidu php
+通过领英和脉脉可以获得目标人物的姓名，邮箱，职务，手机，微信等等。
 
-## 源码层面收集
+**企业的分公司，全资子公司，网站域名、手机app,微信小程序，企业专利品牌信息，企业邮箱，电话等等，**
 
-你可以在淘宝、闲鱼上购买源代码
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20210628153547271.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
-还可以去一些比如专门卖灰色源码的网站进行收集比如http://www.wayu.cn/muban/dedecms?v=free
-![在这里插入图片描述](https://img-blog.csdnimg.cn/2021062813073986.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
+**查询企业备案**
+主要针对与国内网站备案。
+站长之家 http://icp.chinaz.com
+天眼查
+ICP备案查询网
 
+#### 网站附属产品
+**APP**
 
-
-
-### 响应头
-
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20210626222906199.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
-
+* 七麦数据： https://www.qimai.cn/，可以查到企业下一些比较冷门的app。
 ### CMS识别
 
 常见的开源CMS有
@@ -1381,71 +1184,28 @@ Dedecms discuz phpcms wordpress zblog phpweb aspcms
 ```
 
 **识别方法1：利用工具**
-云悉指纹:需要邀请码，邀请流程繁琐不推荐
-whatweb  http://whatweb.bugscaner.com/look/
-![在这里插入图片描述](https://img-blog.csdnimg.cn/2021062722095483.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
-
-[ThreatScan在线获取网站的IP、指纹、中间件、操作系统等基础信息](https://scan.top15.cn/web/) 
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20210623185322593.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
-**识别方法2：观察网站信息**
-查看网站的powered by.。
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20210627224351107.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
-点击一个特别的文件名，在百度搜索名字有可能出
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20210627224732482.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
-进入一个特别的目录，报错可能会显示版本
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20210628123341487.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
-
-当你收集到CMS后，你应进行的下一步如百度 phpcms源码下载；PHPCMS漏洞，或者你还可以下载如 php_getshell.exe工具
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20210628124838142.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
-
+百度搜索关键词打开链接：CMS在线识别网站
 
 网上的公开cms识别原理是通过匹配识别的hash值字典匹配
 
-### 待补充：github监控
+**识别方法2：观察网站信息**
+查看网站的powered by.。
 
-## 主动信息收集
+点击一个特别路径名，在百度搜索名字有可能出
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210627224732482.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 
-1. 目标子域名
 
-2. 目标APP资产
-3. 目标域名备案信息
+
 4. 目标微博，公众号信息
 5. 目标邮箱用户信息
 6. 目标VPN用户信息
 7. 目标GitHub泄露信息
 8. 目标服务器/中间件/CMS框架信息
-9. 目标所有存活网站Waf信息
    10.目标网盘或第三方网盘敏感文件信息
-10. 等等.....*
 
 主动探测是与目标机器做交互。在做交互时不可避免会留下痕迹。如何隐藏自己请看技巧的代理小节
 
-**CDN**
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20210512005207488.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 
-
-**网站使用说明书**
-
-通常包含一些敏感信息，比如登录敏感目录，管理员默认密码，密码长度等
-
-**查询公司APP**
-
-* 七麦数据： https://www.qimai.cn/，可以查到企业下一些比较冷门的app。
-
-**查询企业备案**
-主要针对与国内网站备案。
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20210630192550422.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
-
-站长之家 http://icp.chinaz.com
-天眼查
-ICP备案查询网
-
-**操作系统识别**
-**如果对方有网站**
-Linux大小写敏感
-Windows大小写不敏感
-**没有网站，只有IP地址**
-扫描工具，很多了如nmap
 
 **js信息收集**
 主要是爬取网站的敏感js文件，js中能收集到的信息:
@@ -1470,6 +1230,9 @@ xray的rad爬虫 https://github.com/chaitin/rad
 https://www.baidu.com
 www 就是顶级域名，如果是https://blog.baidu.com就是他的子域名
 
+##### 相似域名
+用阿里云
+万网搜索是否号被注册了
 ##### 方法一：爆破子域名
 
 >方法1：利用工具
@@ -1515,16 +1278,8 @@ hping3
 
 常见端口攻击:https://www.cnblogs.com/botoo/p/10475402.html
 
-**找后台页面**
 
 
-
-### 获取路径
-
-![在这里插入图片描述](https://img-blog.csdnimg.cn/2021070518210056.png)
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20210705182427520.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20210705182632316.png)
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20210705182650246.png)
 
 #### 目录爆破
 
@@ -1534,8 +1289,32 @@ crossdomain.xml
 sitemap.xml
 xx.tar.gz
 xx.bak
-等
-php文件夹遍历代码
+phpinfo()
+
+ 查看网站的图像、链接来自于站点的那些目录，有些目录也许能直接打开
+错误信息尝试：我在对一些网站故意输入错误信息时，它弹出来报错界面，而这个报错界面通常就包含它的目录。比如我尝试链接注入XSS语句，或我尝试空密码输入等
+
+url/login 的 login 换成reg、register、sign字段
+查看robots.txt文件，对于一些简单的马大哈网站这个配置文件将会包含信息
+www.xxx.com/admin 加上/login.aspx(php)
+www.xxx.com 加上/static;/backup
+##### 工具
+**御剑后台扫描珍藏版**
+御剑后台扫描珍藏版:用于爆破目录，同时通过爆破出来的目录就可以知道网站是什么语言写的比如/admin/login.aspx就是用aspx。
+
+御剑后台扫描珍藏版下载网站](https://www.nnapp.cn/?post=211)；御剑55w增强版字典[文章有百度网盘链接](https://www.icode9.com/content-4-87412.html); 御剑85w 字典：http://www.coder100.com/index/index/content/id/833812
+
+使用十分简单。但是我在对同一个站点进行扫描两次的时候，发现结果不一样，因为我网速不好，但采用了默认的中断时常3秒。但目录有限，四万多很多都是php文件路径，目录路径，如果你的电脑能受得了。可以选择........
+更正：也可以是ip
+![御剑](https://img-blog.csdnimg.cn/20210609115717971.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
+
+
+
+拿到一定信息后，通过拿到的目录名称，文件名称及文件扩展名了解网站开发人员的命名思路，确定其命名规则，推测出更多的目录及文件名
+**dirbuster**
+kali自带ka的一款工具，fuzz很方便。kali中直接在命令行中输入dirbuster，我认为该工具更强大，同样支持字典，还支持递归搜索和纯粹爆破，纯粹爆破你可以选择A-Z0-9a-z_，对于定向攻击来说纯粹爆破太强大了，直接帮助我发现隐藏各个目录,我在利用纯粹爆破将线程拉到50，仍旧需要10000+天以上（缺点是我用虚拟机跑的，字典大就慢）
+
+
 
 ##### 目录爆破经验
 
@@ -1573,38 +1352,9 @@ filename=../../../etc/passwd
 许多开发人员在所需变量的末尾添加“.php”扩展名，然后再将其包含在内。
 因此，网络服务器将/etc/passwd解释为/etc/passwd.php，因此我们无法访问该文件。为了摆脱这个“.php”，我们尝试使用空字节字符 (%00)终止变量，这将迫使 php 服务器在解释之后立即忽略所有内容。
 
-#### 手工目录爆破
-
-只需要记住
-php 探针
-在利用软件进行爆破前，你应该首先多对网站进行交互。
-
-> ② 查看网站的图像、链接来自于站点的那些目录，有些目录也许能直接打开
-> ③ 错误信息尝试：我在对一些网站故意输入错误信息时，它弹出来报错界面，而这个报错界面通常就包含它的目录。比如我尝试链接注入XSS语句，或我尝试空密码输入等
-
-> url/login 的 login 换成reg、register、sign字段
-> 查看robots.txt文件，对于一些简单的马大哈网站这个配置文件将会包含信息
-> www.xxx.com/admin 加上/login.aspx(php)
-> www.xxx.com 加上/static;/backup
-
-再来看另一个案例：
-
-#### 工具
-
-**御剑后台扫描珍藏版**
-御剑后台扫描珍藏版:用于爆破目录，同时通过爆破出来的目录就可以知道网站是什么语言写的比如/admin/login.aspx就是用aspx。
-
-御剑后台扫描珍藏版下载网站](https://www.nnapp.cn/?post=211)；御剑55w增强版字典[文章有百度网盘链接](https://www.icode9.com/content-4-87412.html); 御剑85w 字典：http://www.coder100.com/index/index/content/id/833812
-
-使用十分简单。但是我在对同一个站点进行扫描两次的时候，发现结果不一样，因为我网速不好，但采用了默认的中断时常3秒。但目录有限，四万多很多都是php文件路径，目录路径，如果你的电脑能受得了。可以选择........
-更正：也可以是ip
-![御剑](https://img-blog.csdnimg.cn/20210609115717971.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 
 
 
-拿到一定信息后，通过拿到的目录名称，文件名称及文件扩展名了解网站开发人员的命名思路，确定其命名规则，推测出更多的目录及文件名
-**dirbuster**
-kali自带ka的一款工具，fuzz很方便。kali中直接在命令行中输入dirbuster，我认为该工具更强大，同样支持字典，还支持递归搜索和纯粹爆破，纯粹爆破你可以选择A-Z0-9a-z_，对于定向攻击来说纯粹爆破太强大了，直接帮助我发现隐藏各个目录,我在利用纯粹爆破将线程拉到50，仍旧需要10000+天以上（缺点是我用虚拟机跑的，字典大就慢）
 
 
 
@@ -1615,33 +1365,16 @@ kali自带ka的一款工具，fuzz很方便。kali中直接在命令行中输入
 
 在线C段查询：https://chapangzhan.com/
 
-
-**公司信息收集：招股书**
-招股书涵盖的信息量很大，且容易获得，只需要用搜索引擎搜素：xxx招股书，即可获得。而其中许多公司得招股书中，**会有大量得资产域名**。在招股书中，其中目标公司股权结构也非常清晰。目标公司重要人员的其他重要信息也非常清晰：例如**手写签名：（用于后期钓鱼）**。
-**例如注册商标：**（用户了解更多的目标资产与品牌）。**股权结构，需要重点关注，非技术类人员，**例如：销售，财务，后勤等职务的人员。此类人员是目标的重要人员，而且此类人员相对其他技术类人员安全意识较若，为“钓鱼”而铺垫。
-查看股份穿透图，一般来说控股超过50%的子公司的漏洞SRC收录的可能性都比较大。
-
-**公司信息收集：人肉目标对象**
-对目标人物初级收集通常要定在非技术人员，这类人员特征是在领英和脉脉上照片是西装。
-般的大型内网渗透中，需要关注大致几个组
-（1）IT组/研发组    他们掌握在大量的内网密码，数据库密码等。收集研发最好的入口点是他们运营的网站，网站中可能包含网站的开发、管理维护等人员的信息。
-（2）秘书组     他们掌握着大量的目标机构的内部传达文件，为信息分析业务提供信息，在反馈给技术业务来确定渗透方向
-（3）domain admins组  root/administrator
-（4）财务组   他们掌握着大量的资金往来与目标企业的规划发展，并且可以通过资金，来判断出目标组织的整体架构
-（5）CXX组 ceo cto coo等，不同的目标组织名字不同，如部长，厂长，经理等。
-
-通过领英和脉脉可以获得目标人物的姓名，邮箱，职务，手机，微信等等。
-
-**企业的分公司，全资子公司，网站域名、手机app,微信小程序，企业专利品牌信息，企业邮箱，电话等等，**
-
 # 工具
 
 工具这一部分除了参考我简介的基本规则，你最需要的是上手练习
+### 配置上网
 
-## 字典
 
-**fuzz**
-参数Fuzz字典、Xss Fuzz字典、用户名字典、密码字典、目录字典、sql-fuzz字典、ssrf-fuzz字典、XXE字典、ctf字典、Api字典、路由器后台字典、文件后缀Fuzz、js文件字典、子域名字典，更新还挺及时的，最近关注此项目上一次更新在2021/6  https://github.com/TheKingOfDuck/fuzzDicts
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210515003648812.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
+
+
+
 
 ## 学会上网
 
@@ -1908,31 +1641,6 @@ swaks --body "内容" --header "Subject:标题" -t xxxxx@qq.com -f "admin@local.
   http://www.downcc.com/soft/11196.html
   ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210625104540882.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 
-### 手机抓包
-
-直接抓apk数据包的软件是，漏了个大洞。通过这个软件可以提取到APK的URL
-
-打开模拟器或者是你真实的在手机上进行操作，我打开了模拟器。
-对wifi进行设置
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20210625101333315.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
-设置wifi与自己本机wifi相同
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20210625101546129.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
-手机抓包代理应该设置为本地真实ip而不是像抓网页端一样设置为127.0.0.1
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20210625101919134.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
-
-在burpsuite也做代理设置。burpsuite是一个专门抓web协议的数据流量软件。如果你在安卓模拟器随便打开一个app,当这个app涉及到请求网站时，这数据将会被抓取
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20210625101801457.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
-
-
-
-### 爬整个网站
-
-**意义**
-得到了是不是意味着免去了爆破网站、端口监测？
-
-## HTTrack
-
-HTTrack 是一个免费并易于使用的线下浏览器工具，全称是 HTTrack Website Copier for Windows，它能够让你从互联网上下载指定的网站进行线下浏览(离线浏览)，也可以用来收集信息(甚至有网站使用隐藏的密码文件)，一些仿真度极高的伪网站（为了骗取用户密码），也是使用类似工具做的。浏览线下站点和线上并没有什么不同。
 
 ## DNS信息收集
 
@@ -1958,7 +1666,7 @@ AXFR：查询域的整个区域文件的给定名称服务器
 MX：查询域的邮件服务器（MX 记录）
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210612235509451.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 
-### hash相關工具
+### hash相关工具
 
 #### 识别
 
@@ -2341,12 +2049,11 @@ Intruder是一个高度可配置工具，可以对web自动化攻击，模糊测
 
 
 
-### 漏洞扫描工具
+### 通用漏洞扫描工具
 
-注意:登录类网站扫描要带cookies扫才能扫到
 
 #### Awvs
-
+注意:登录类网站扫描要带cookies扫才能扫到
 awvs_13.0.2009 web漏洞扫描器 安装教程,附下载破解包下载链接
 
 #### AppScan
@@ -2357,7 +2064,7 @@ awvs_13.0.2009 web漏洞扫描器 安装教程,附下载破解包下载链接
 
 
 
-#### kali
+### kali
 
 Kali Linux是基于Debian面向网络安全人员的Linux发行版，由BackTrack发展而来。现由Offensive Security公司开发和维护，其内置许多网络安全工具，因此常用来做渗透测试和数字鉴证。kali有600+渗透工具，是目前黑客的最佳选择工具。
 
@@ -2367,7 +2074,7 @@ Kali Linux是基于Debian面向网络安全人员的Linux发行版，由BackTrac
 
 https://blog.csdn.net/jayjaydream/article/details/82945384
 
-有人推荐类似的工具是 忍者，具体我还没有安装测试，如果用到好用就会补充的。
+
 
 
 #### 安装kali
@@ -2552,17 +2259,34 @@ msf攻击网络站点需要做反弹或者用公共的服务器。
 
 
 
-# APP封装
+# APP漏洞
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210715204256707.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
+APP-> WEB APP->其他 APP->逆向
+
+## 抓包
 
  网站的框架被封装在APP中，因此你从网站下载的app入侵成功后很可能你同步拿下了网站的。以下方式获得的结果有很大的不同，你应该配合使用
  **获取信息方式1.burpsuite**
+打开模拟器或者是你真实的在手机上进行操作，我打开了模拟器。
+对wifi进行设置
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210625101333315.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
+设置wifi与自己本机wifi相同
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210625101546129.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
+手机抓包代理应该设置为本地真实ip而不是像抓网页端一样设置为127.0.0.1
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210625101919134.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
+
+在burpsuite也做代理设置。burpsuite是一个专门抓web协议的数据流量软件。如果你在安卓模拟器随便打开一个app,当这个app涉及到请求网站时，这数据将会被抓取
+
+
+
+
+
+
  使用APP获取封装的网页，你需要利用好抓包工具burpsuite
  ![在这里插入图片描述](https://img-blog.csdnimg.cn/20210629214132940.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 
- 在抓到相应的http链接后，你很可能遇到的情况是当你直接利用浏览器去访问请求的http时，无法得到你用app返回的数据包，你用浏览器返回的数据包很可能是个报错如403等界面。这时候你需要仔细检查你用APP发送的数据包与你用web发送的数据包异同点，将你的web发送的请求直接改成APP发送的数据包请求
-
-直接用插件修改请求头也是可以访问仅限APP的网站![在这里插入图片描述](https://img-blog.csdnimg.cn/20210627142638922.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20210627143012153.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
+ 在抓到相应的http链接后，你很可能遇到的情况是当你直接利用浏览器去访问请求的http时，无法得到你用app返回的数据包，你用浏览器返回的数据包很可能是个报错如403等界面。这时候你需要仔细检查你用APP发送的数据包与你用web发送的数据包异同点，将你的web发送的请求直接改成APP发送的数据包
+ 
 **获取信息方式2.逆向编译工具**
 漏了个大洞，一键提取，且加了反编译  
 下载 https://pan.baidu.com/s/1P3gW_En1SI7fXzuxvt5uCw
@@ -4626,16 +4350,8 @@ NTP DDOS 的原理
 
 >SYN攻击利用的是TCP的三次握手机制，攻击端利用伪造的IP地址向被攻击端发出请求，而被攻击端发出的响应 报文将永远发送不到目的地，那么被攻击端在等待关闭这个连接的过程中消耗了资源，如果有成千上万的这种连接，主机资源将被耗尽，从而达到攻击的目的。
 
-#### 利用Nmap完成DDos攻击
-
-虽然LOIC是window程序，但因为kali是允许一些exe执行的，在这里也确实可以执行此软件。如果你要进行网站攻击，那么你选择的目标URL最好最好是本身资源就消耗大的，以达到顺水推舟效果；等待一定时间就可以访问被攻击网站验证会否还能正常访问，有一点需要注意的是LOIC的DDOS攻击只对小站有效，大站无效的！下载链接： https://sourceforge.net/projects/loic/
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20210515213035914.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 
 你可以在使用LOIC测试前，去https://tool.chinaz.com/speedtest.aspx 网站查看一下目标网站速度。在使用LOIC后再去对比目标网速是否有变化。
-
-## 待补充：DNS劫持
-
-## 待补充：ARP欺骗
 
 
 
@@ -4650,17 +4366,37 @@ NTP DDOS 的原理
 最后，不要以明文形式存储您的密码。如果您维护一个用户数据库，则该数据库中的所有密码都应进行散列和加盐处理。如果您确实需要实施加盐，则必须避免两个常见错误。首先是避免使用硬编码的盐。如果攻击者识别出正在使用什么变量对用户的密码进行加盐，他们就可以生成彩虹表来破解位于数据库中的所有密码。要避免的第二件事是短盐。如果 salt 足够短，攻击者可以创建一个彩虹表，其中包含附加到每个可能密码的所有可能的 salt。但是，如果在数据库中使用长盐，则该数据库的彩虹表将非常大。
 
 
-# 待补充：侦查
 
-## 待补充： 日志审计
 
 # 经验积累
 
-## 待补充:第三方软件漏洞
+## CMS漏洞
+![在这里插入图片描述](https://img-blog.csdnimg.cn/2021071520534055.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 
-### weblogic漏洞
+知名的第三方工具网上是有专门的扫描器的，这相比于通用的扫描得会更及时更经常。如果没有你就想办法弄源码下来，弄到之后先采用一键代码设计软件进行扫描漏洞，扫描不出就去看看源码找0day
+
+### 敏感信息搜集
+**搜索引擎搜敏感词**
+框架+爆破目录
+框架+漏洞利用/拿shell
+框架+弱口令
+### 工具
+wordpress:wpscan(kali内置)
+thinkphp:thinkphppayload
+### dedecms
+#### 基本信息
+介绍市场份额、经典界面、漏洞、平台更新速度、版本差别
+#### 敏感信息
+**后台目录**
+/dede
+更多请看http://wap.dedexuexi.com/dedejiaocheng/azsy/1136.html
+
+
+### API
 
 ## 语言特性
+### PHP
+php_getshell.exe
 ### JAVA
 #### SQL注入
 在SQL注入中java要比PHP漏洞少得多，因为其数据库查询通常会写成预编译。
@@ -4701,9 +4437,7 @@ JWT攻击取决于对方服务器是接收数据来进行什么样的下一步�
 
    JWT进行破解，对令牌数据进行破解
 
-## 待重点完善：中间件
 
-## 待重点完善：CVE
 
 ## 待重点完善：WAF绕过
 
@@ -4896,379 +4630,6 @@ SEO优化方式劫持搜索引擎结果，引导大众下载恶意软件
 ```
 
 
-
-
-https://tennc.github.io/webshell/
-
-https://github.com/tennc/webshell/zipball/master
-
-https://github.com/tennc
-
-https://github.com/tennc/webshell
-
-https://github.com/tennc/webshell/archive/master.zip
-
-https://github.com/tennc/webshell/releases
-
-https://github.com/tennc/webshell/archive/v-2017-04-19.zip
-
-http://tennc.github.io/webshell
-
-Download link
-
-Check github releases. Latest:
-
-https://github.com/tennc/webshell/releases
-
-https://github.com/ysrc/webshell-sample
-
-https://github.com/xl7dev/WebShell
-
-https://github.com/tdifg/WebShell
-
-https://github.com/fictivekin/webshell
-
-https://github.com/bartblaze/PHP-backdoors
-
-https://github.com/malwares/WebShell
-
-https://github.com/xypiie/WebShell
-
-https://github.com/testsecer/WebShell
-
-https://github.com/nbs-system/php-malware-finder
-
-https://github.com/BlackArch/webshells
-
-https://github.com/tanjiti/webshellSample
-
-https://github.com/dotcppfile/DAws
-
-https://github.com/theralfbrown/webshell
-
-https://github.com/gokyle/webshell
-
-https://github.com/sunnyelf/cheetah
-
-https://github.com/tennc/webshell 各种webshell集合
-
-https://github.com/ysrc/webshell-sample webshell样本
-
-https://github.com/xl7dev/WebShell Webshell && Backdoor Collection
-
-https://github.com/tdifg/WebShell WebShell Collect
-
-https://github.com/fictivekin/webshell A console-based, JavaScripty HTTP client utility
-
-https://github.com/bartblaze/PHP-backdoors A collection of PHP backdoors. For educational or testing purposes only.
-
-https://github.com/malwares/WebShell webshell集合
-
-https://github.com/xypiie/WebShell web-based shell
-
-https://github.com/testsecer/WebShell WebShell收集项目
-
-https://github.com/nbs-system/php-malware-finder Detect potentially malicious PHP files
-
-https://github.com/BlackArch/webshells Various webshells
-
-https://github.com/tanjiti/webshellSample webshell sample for webshel check module
-
-https://github.com/dotcppfile/DAws Advanced Web Shell
-
-https://github.com/theralfbrown/webshell Web Shell WSO
-
-https://github.com/gokyle/webshell A shell for new Go webapps
-
-https://github.com/sunnyelf/cheetah a very fast brute force webshell password tool
-
-https://github.com/JohnTroony/php-webshells Common php webshells
-
-https://github.com/evilcos/python-webshell python webshell
-
-https://github.com/lhlsec/webshell webshell集合
-
-https://github.com/shewey/webshell webshell&poc
-
-https://github.com/boy-hack/WebshellManager w8ay 一句话WEB端管理工具
-
-https://github.com/liulongfei/web_shell_bopo 一句话木马爆破工具
-
-https://github.com/Ni7eipr/webshell 这是一个webshell收集项目
-
-https://github.com/WangYihang/Webshell-Sniper PyWebshell
-
-https://github.com/pm2-hive/pm2-webshell Fully capable Webshell
-
-https://github.com/samdark/yii2-webshell
-
-https://github.com/b1ueb0y/webshell
-
-https://github.com/oneoneplus/webshell webshell收集与整理
-
-https://github.com/zhaojh329/xterminal xTerminal is a remote web shell tool for multi terminal devices.
-
-https://github.com/juanparati/Webshell A remote execution tool (or security intrusion tool)
-
-https://github.com/wofeiwo/webshell-find-tools 分析web访问日志以及web目录文件属性，用于根据查找可疑后门文件的相关脚本。
-
-https://github.com/abcdlzy/webshell-manager
-
-一句话木马管理工具
-
-https://github.com/alert0/webshellch 中国菜刀jsp端
-
-https://github.com/needle-wang/jweevely a exec jsp shell, simply like weevely php C/S shell.
-
-https://github.com/tengzhangchao/PyCmd
-
-加密隐形一句话木马
-
-https://github.com/0x73686974/WebShell Stealth WebShell AntiLogging
-
-https://github.com/wonderqs/Blade A webshell connection tool with customized WAF bypass payloads
-
-https://github.com/le4f/aspexec
-
-asp命令执行webshell
-
-https://github.com/jijinggang/WebShell Go语言Run predefined shell script through web browser
-
-https://github.com/matiasmenares/Shuffle WebShell Backdoor Framework
-
-https://github.com/Skycrab/PySpy https://github.com/huge818/webshell 这是一个网页版本的xshell
-
-https://github.com/gb-sn/go-webshell A simple webshell written in Go
-
-https://github.com/BlackHole1/Fastener Web版webshell
-
-https://github.com/blackhalt/WebShells
-
-https://github.com/tomas1000r/webshell
-
-https://github.com/hanzhibin/Webshell This provide a bash like web tool for Hamsta.
-
-https://github.com/decebel/webShell commanline web shell UI
-
-https://github.com/Aviso-hub/Webshell Webshell interface
-
-https://github.com/vnhacker1337/Webshell
-
-https://github.com/bittorrent3389/Webshell php webshell
-
-https://github.com/anhday22/WebShell webshell
-
-https://github.com/buxiaomo/webshell WebShell Web 管理平台
-
-https://github.com/z3robat/webshell https://github.com/n3oism/webshell 新webshell
-
-https://github.com/uuleaf/WebShell 网站木马
-
-https://github.com/onefor1/webshell 冷门Webshell
-
-https://github.com/cunlin-yu/webshell Collected some useful webshell from the wide.
-
-https://github.com/roytest1/webshell
-
-https://github.com/backlion/webshell webshell合集 22天前更新
-
-https://github.com/opetrovski/webshell https://github.com/opetrovski/webshell 管理工具
-
-https://github.com/gsmlg/webshell
-
-https://github.com/health901/webshell
-
-PHP webshell控制台
-
-https://github.com/inof8r/WebShell Android Webview wrapper
-
-https://github.com/Najones19746/webShell pywebshell
-
-https://github.com/RaspiCar/WebShell C WEBSHELL
-
-https://github.com/health901/webshell PHP Web Shell 控制台
-
-https://github.com/dinamsky/WebShell webshell合集
-
-https://github.com/Fay48/WebShell https://github.com/tuz358/webshell 后门
-
-https://github.com/shajf/Webshell https://github.com/t17lab/WebShell Web Shell
-
-https://github.com/blacksunwen/webshell 这是一个webshell收集项目
-
-https://github.com/webshellarchive/webshellco webshell收集
-
-https://github.com/lolwaleet/Rubshell
-
-ruby shell
-
-https://github.com/WhiteWinterWolf/WhiteWinterWolf-php-webshell https://github.com/goodtouch/jruby-webshell
-
-https://github.com/maestrano/webshell-server
-
-https://github.com/LuciferoO/webshell-collector
-
-https://github.com/wangeradd1/myWebShell 一些比较冷门或者特殊的webshell脚本、jar包、war包
-
-
-https://github.com/alintamvanz/1945shell 1945 Shell adalah project webshell backdoor yang rilis setiap tahun (17 Agustus). dan rilis build setiap bulan
-
-https://github.com/Venen0/vshell VenenoShell is a PHP based webshell that let you manage a web server. You can create, modify and delete files on it.
-
-https://github.com/lojikil/tinyshell super tiny remote webshell with some helpers. Not trying to hide anything, just a simple shell
-
-https://github.com/wso-shell/PHP-SHELL-WSO https://github.com/meme-lord/PHPShellBackdoors
-
-https://github.com/Learn2Better/51mp3L-Web-Backdoor PHP WebShell Backdoor for Access all dir/file in the Website.
-
-https://github.com/yuxiaokui/JBoss-Hack 通过调用zoomeye来获取安装JBoss机器的地址，然后通过HEAD请求植入webshell。
-
-https://github.com/SecurityRiskAdvisors/cmd.jsp A super small jsp webshell with file upload capabilities.
-
-https://github.com/ddcunningham/crude-shellhunter Fooling with AWK to remove webshells injected into client code.
-
-https://github.com/stormdark/BackdoorPHP
-
-https://github.com/vduddu/Malware
-
-https://github.com/1oid/BurstPHPshell 破解webshell
-
-https://github.com/gokyle/urlshorten_ng URL shortening service based on 'webshell'.
-
-https://github.com/rhelsing/trello_osx Na(t)ive Trello implementation for OS X, using WebShell
-
-https://github.com/pfrazee/wsh-grammar WebShell grammer definition, and parser
-
-https://github.com/x-o-r-r-o/PHP-Webshells-Collection Most Wanted Private and Public PHP Web Shells Can Be Downloaded Here. (Educational Purpose Only)
-
-https://github.com/IHA114/WebShell2
-
-https://github.com/WangYihang/WebShellCracker https://github.com/KINGSABRI/WebShellConsole
-
-https://github.com/jujinesy/webshells.17.03.18
-
-https://github.com/hackzsd/HandyShells Some Handy WebShell Scripts
-
-https://github.com/mperlet/pomsky python web shell
-
-https://github.com/cybernoir/bns-php-shell Basic and Stealthy PHP webshell
-
-https://github.com/XianThi/rexShell php backdoor, webshell
-
-https://github.com/H4CK3RT3CH/php-webshells
-
-https://github.com/minisllc/subshell
-
-SubShell is a python command shell used to control and execute commands through HTTP requests to a webshell. SubShell acts as the interface to the remote webshells.
-
-https://github.com/linuxsec/indoxploit-shell Webshell with unique features
-
-https://github.com/kuniasahi/mpshell 一个简单的phpwebshell
-
-https://github.com/datasiph0n/MyBB-Shell-Plugin https://github.com/magicming200/evil-koala-php-webshell 邪恶考拉php webshell。
-
-https://github.com/0xK3v/Simple-WebShell
-
-https://github.com/djoq/docker-pm2-webshell SSH access to a docker virtual machine via browser.
-
-https://github.com/SMRUCC/GCModeller.WebShell GCModeller web user interface
-
-https://github.com/darknesstiller/WebShells Proyecto para revisión de funcionalidades de WebShells
-
-https://github.com/devilscream/remoteshell Simple Webshell based on Terminal.
-
-https://github.com/0verl0ad/gorosaurus
-
-https://github.com/grCod/poly A python script that generates polymorphic webshells.
-
-https://github.com/cryptobioz/wizhack Get shellcodes and webshells quickly.
-
-https://github.com/amwso/docker-webshell b374k webshell in docker
-
-https://github.com/William-Hunter/JSP_Webshell 一个简单的使用jsp实现DB CRUD 操作的webshell模拟
-
-https://github.com/yangbaopeng/ashx_webshell ashx_webshell
-
-https://github.com/webshellpub/awsome-webshell webshell样本大合集。收集各种webshell用于webshell分析与发现。
-
-https://github.com/noalh8t/simple-webshell
-
-https://github.com/s3cureshell/wso-2.8-web-shell WSO 2.8.5 webshell
-
-https://github.com/LiamRandall/simpleexec A simple webshell in Go.
-
-https://github.com/Samorodek/humhub-modules-webshell Simple web shell.
-
-https://github.com/mwambler/webshell-xpages-ext-lib
-
-https://github.com/AVGP/Wesh The JS Webshell
-
-https://github.com/edibledinos/weevely3-stealth
-
-Weevely is a command line web shell dynamically extended over the network at runtime, designed for remote server administration and penetration testing.
-
-https://github.com/lehins/haskell-webshell SSH Webshell in Haskell
-
-https://github.com/guglia001/php-secure-remove https://github.com/gokyle/webshell_tutorial Tutorial site for webshell.
-
-https://github.com/azmanishak/webshell-php Webshell PHP library
-
-https://github.com/andrefernandes/docker-webshell docker-webshell
-
-https://github.com/codehz/node-webshell
-
-https://github.com/koolshare/merlin-webshell merlin_thunder
-
-https://github.com/StephaneP/erl-webshell
-
-https://github.com/jjjmaracay3/webshells asp,aspx,php,jsp,pl,py 各种webshell
-
-https://github.com/grCod/webshells
-
-https://github.com/ian4hu/bootshell A JSP WebShell with bootstrap.
-
-https://github.com/Ghostboy-287/wso-webshell
-
-WSO php webshell
-
-https://github.com/xiaoxiaoleo/xiao-webshell a collection of webshell
-
-https://github.com/alexbires/webshellmanagement manage all the shells
-
-https://github.com/codeT/collectWebShell collect common webshell
-
-https://github.com/PhilCodeEx/jak3fr0z
-
-https://github.com/Ettack/WebshellCCL 辅助过安全狗
-
-https://github.com/jubal-R/TinyWebShell A simple php web shell and client with an interactive console for use in CTFs, wargames, etc. The goal is to keep the web shell tiny by moving as much code as possible to the client side.
-
-https://github.com/CaledoniaProject/AxisInvoker A minimal webshell for Apache AXIS2
-
-https://github.com/theBrianCui/ISSS_webShell The official website (source) of the Information & Systems Security Society.
-
-https://github.com/webshell/webshell-node-sdk The easiest way to use Webshell in javascript using Node.js
-
-https://github.com/Medicean/AS_BugScan
-
-通过 Webshell 创建 BugScan 节点(需要目标支持 Python2.7)
-
-https://github.com/3xp10it/xwebshell
-
-免杀webshell
-
-https://github.com/niemand-sec/RazorSyntaxWebshell Webshell for Razor Syntax (C#)
-
-https://github.com/LuciferoO/webshell-collector This is a webshell collector project
-
-https://github.com/0verl0ad/HideShell A tool to ofuscate big webshells (c99, r57...). Can hide your webshell from AV, LMD, Neopi, Web Shell Detector, etc.
-
-https://github.com/L-codes/oneshellcrack oneshellcrack 是一个非常快的webshell暴力破解工具
-
-https://github.com/ArchAssault-Project/webshells webshells repo for arch assault
-
-https://github.com/AndrHacK/andrshell DDoS WEB SHELL - PYTHON3
-
 ## 密码
 
 https://www.somd5.com/
@@ -5318,6 +4679,18 @@ cat ~/.bash_history  ：查看操作指令
 ps -aux  #查看进程
 cat /etc/passwd
 
+
+
+#### 网站信息查询
+
+接下来，查询一下whois信息：信息查询出来后没有注册电话显示，还需要进一步查询。
+邮箱反查
+通过whois查询到的邮箱进行一波反查注册过该邮箱域名地址：发现该邮箱还注册了另一个站点。
+
+相关网站
+对邮箱反查后的站点进行访问后得到。
+
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20210520164745383.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 ### 溯源
 
 这个技巧可以用在获得更多信息中或者人肉，也可以用在反攻击中，即找出黑客是谁。
@@ -5373,17 +4746,6 @@ https://cn.linkedin.com/pub/dir?lastName=&firstName=名&trk=public_profile_peopl
 
 
 筛选电话号码这一小节摘抄自 https://mp.weixin.qq.com/s?__biz=MzI3NTExMDc0OQ==&mid=2247483802&idx=1&sn=e4317bcbc3e78ddf4c2715298ef197f2&scene=21#wechat_redirect
-
-#### 网站信息查询
-
-接下来，查询一下whois信息：信息查询出来后没有注册电话显示，还需要进一步查询。
-邮箱反查
-通过whois查询到的邮箱进行一波反查注册过该邮箱域名地址：发现该邮箱还注册了另一个站点。
-
-相关网站
-对邮箱反查后的站点进行访问后得到。
-
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20210520164745383.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
 
 #### IP 定位
 
@@ -5767,25 +5129,6 @@ webshell查杀
 如果你使用火绒浏览器，即便你打开了quasar，也很可能无效。
 具体使用地址参考https://blog.csdn.net/qq_44930903/article/details/111600982
 
-# 待补充，可能不要这一小节：技巧
-
-## HTTP 参数污染
-
-**什么是**
-[参考链接](https://www.codenong.com/cs105293023/)
-这是直接修改参数的另一种思路，对于链接直接修改参数很可能失败，那么我们尝试将参数补充上呢？
-![在这里插入图片描述](https://img-blog.csdnimg.cn/20210425233145741.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L25nYWRtaW5x,size_16,color_FFFFFF,t_70)
-**简介**
-难度：低
-通常用在：分享链接
-拓展思路：对客户端的攻击，比如投票、跳转、关注等；
-绕过安全防护软件；
-
-
-**实战**
-
-测试链接：
-模板引擎攻击——模板注入
 
 # 隐藏技术
 
@@ -5860,25 +5203,6 @@ https://payloads.online/archivers/2020-02-05/1
 
 
 
-## 匿名代理纯净的渗透环境
-
-http://www.webscan.cc/ C端同服扫描
-
-
-
-http://www.yunsee.cn/ 云悉WEB资产搜集
-
-
-http://haoma.sogou.com/rz/ 搜狗号码通
-
-http://haoma.baidu.com/query 百度号码认证
-
-http://www.gogoqq.com/ 非好友情况如何查看QQ空间
-
-
-http://whitepages.com 房产登记信息查询
-
-http://www.webscan.cc/ 在线工具
 
 
 
@@ -5904,12 +5228,6 @@ history -c
 touch –r
 删除tmp目录临时文件
 
-### 使用tor网络
-
-
-### 将流量隐藏于合法流量中
-
-### 修改来源于类型
 
 ### 获得 Shell后
 
